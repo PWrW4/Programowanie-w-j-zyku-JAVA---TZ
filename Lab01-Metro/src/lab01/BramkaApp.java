@@ -32,7 +32,7 @@ public class BramkaApp extends JDialog implements IBramka{
         bramka = new Bramka(-1,0,0,false);
 
         try {
-            nBramka = (IBramka) UnicastRemoteObject.exportObject(this, 1999);
+            nBramka = (IBramka) UnicastRemoteObject.exportObject(this, PortFactory.getPort());
             Registry registry = LocateRegistry.getRegistry("localhost", Registry.REGISTRY_PORT);
 
             nCentrala = (ICentrala) registry.lookup("Centrala");

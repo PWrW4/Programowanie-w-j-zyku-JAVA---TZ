@@ -25,7 +25,7 @@ public class CentralaApp extends JDialog implements ICentrala {
 
     public CentralaApp() {
         try {
-            ICentrala nCentrala = (ICentrala) UnicastRemoteObject.exportObject(this, 1997);
+            ICentrala nCentrala = (ICentrala) UnicastRemoteObject.exportObject(this, PortFactory.getPort());
             Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
             registry.bind("Centrala",nCentrala);
         } catch (AlreadyBoundException | IOException e) {

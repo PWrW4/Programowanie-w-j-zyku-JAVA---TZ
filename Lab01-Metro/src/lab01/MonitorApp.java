@@ -27,7 +27,7 @@ public class MonitorApp extends JDialog implements IMonitor, Runnable {
     private MonitorApp() {
 
         try {
-            IMonitor nMonitor = (IMonitor) UnicastRemoteObject.exportObject(this, 2000);
+            IMonitor nMonitor = (IMonitor) UnicastRemoteObject.exportObject(this, PortFactory.getPort());
             Registry registry = LocateRegistry.getRegistry("localhost", Registry.REGISTRY_PORT);
 
             nCentrala = (ICentrala) registry.lookup("Centrala");

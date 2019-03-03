@@ -2,7 +2,7 @@ package lab01;
 
 import java.io.Serializable;
 
-public class Bramka implements Serializable {
+public class Bramka  {
 
     private int nr;
     private int wekscia;
