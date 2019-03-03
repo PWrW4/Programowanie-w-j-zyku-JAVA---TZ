@@ -39,6 +39,8 @@ public class BramkaApp extends JDialog implements IBramka{
 
         } catch (IOException | NotBoundException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null,"No Centrala running");
+            System.exit(1);
         }
 
         updateButtonsStatus();

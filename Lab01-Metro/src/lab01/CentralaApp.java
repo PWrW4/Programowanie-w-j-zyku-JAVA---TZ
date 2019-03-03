@@ -30,6 +30,8 @@ public class CentralaApp extends JDialog implements ICentrala {
             registry.bind("Centrala",nCentrala);
         } catch (AlreadyBoundException | IOException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null,"Inna centrala juz działa");
+            System.exit(1);
         }
 
 

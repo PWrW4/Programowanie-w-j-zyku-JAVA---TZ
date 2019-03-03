@@ -35,6 +35,8 @@ public class MonitorApp extends JDialog implements IMonitor, Runnable {
 
         } catch (IOException | NotBoundException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null,"No Centrala running");
+            System.exit(1);
         }
 
 
@@ -94,7 +96,7 @@ public class MonitorApp extends JDialog implements IMonitor, Runnable {
     public void run() {
         while (true){
             try {
-                Thread.sleep(5000);
+                Thread.sleep(3000);
                 updateBramkiList();
             } catch (InterruptedException | RemoteException e) {
                 e.printStackTrace();
