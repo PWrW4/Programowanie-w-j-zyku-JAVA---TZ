@@ -1,9 +1,17 @@
 package lab01;
 
+import javax.net.SocketFactory;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.rmi.AlreadyBoundException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Date;
 
 public class BramkaApp extends JDialog implements IBramka{
@@ -12,8 +20,31 @@ public class BramkaApp extends JDialog implements IBramka{
     private JButton buttonStop;
     private JButton buttonWejscie;
     private JButton buttonWyjscie;
+    private JLabel wejsciaLabel;
+    private JLabel wyjsciaLabel;
+
+    private Bramka bramka;
+    private ICentrala nCentrala;
+    private Registry registry;
+
 
     public BramkaApp() {
+        bramka = new Bramka(-1,0,0,false);
+
+        try {
+            IBramka nBramka = (IBramka) UnicastRemoteObject.exportObject(this, 1999);
+            registry = LocateRegistry.getRegistry("localhost",Registry.REGISTRY_PORT);
+
+            nCentrala = (ICentrala) registry.lookup("Centrala");
+
+            registry.bind("Bramka",nBramka);
+
+        } catch (AlreadyBoundException | IOException | NotBoundException e) {
+            e.printStackTrace();
+        }
+
+        updateButtonsStatus();
+
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonStart);
@@ -21,25 +52,37 @@ public class BramkaApp extends JDialog implements IBramka{
         buttonStop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                try {
+                    nCentrala.wyrejestrujBramke(bramka.getNr());
+                    updateButtonsStatus();
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
         buttonWejscie.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                bramka.setWekscia(bramka.getWekscia() + 1);
+                wejsciaLabel.setText("Wejscia: " + bramka.getWekscia());
             }
         });
         buttonWyjscie.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                bramka.setWyjscia(bramka.getWyjscia()+1);
+                wyjsciaLabel.setText("Wyjscia: " + bramka.getWyjscia());
             }
         });
         buttonStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                try {
+                    bramka.setNr(nCentrala.zarejestrujBramke(bramka));
+                    updateButtonsStatus();
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
     }
@@ -65,5 +108,20 @@ public class BramkaApp extends JDialog implements IBramka{
     @Override
     public int getNumer() throws RemoteException {
         return 0;
+    }
+
+    private void updateButtonsStatus(){
+        if (bramka.isRunning()){
+            buttonWyjscie.setEnabled(true);
+            buttonWejscie.setEnabled(true);
+            buttonStart.setEnabled(false);
+            buttonStop.setEnabled(true);
+        }else{
+            buttonWyjscie.setEnabled(false);
+            buttonWejscie.setEnabled(false);
+            buttonStart.setEnabled(true);
+            buttonStop.setEnabled(false);
+        }
+        bramka.setRunning(!bramka.isRunning());
     }
 }

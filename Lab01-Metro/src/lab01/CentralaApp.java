@@ -2,7 +2,13 @@ package lab01;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 public class CentralaApp extends JDialog implements ICentrala {
@@ -23,7 +29,6 @@ public class CentralaApp extends JDialog implements ICentrala {
             }
         });
 
-        // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -31,7 +36,6 @@ public class CentralaApp extends JDialog implements ICentrala {
             }
         });
 
-        // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onExitButton();
@@ -46,6 +50,15 @@ public class CentralaApp extends JDialog implements ICentrala {
 
     public static void main(String[] args) {
         CentralaApp dialog = new CentralaApp();
+
+        try {
+            ICentrala nCentrala = (ICentrala) UnicastRemoteObject.exportObject(dialog, 1997);
+            Registry registry = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
+            registry.bind("Centrala",nCentrala);
+        } catch (AlreadyBoundException | IOException e) {
+            e.printStackTrace();
+        }
+
         dialog.pack();
         dialog.setVisible(true);
         System.exit(0);
@@ -53,12 +66,12 @@ public class CentralaApp extends JDialog implements ICentrala {
 
     @Override
     public int zarejestrujBramke(Object bramka) throws RemoteException {
-        return 0;
+        return 1;
     }
 
     @Override
     public boolean wyrejestrujBramke(int nrBramki) throws RemoteException {
-        return false;
+        return true;
     }
 
     @Override
