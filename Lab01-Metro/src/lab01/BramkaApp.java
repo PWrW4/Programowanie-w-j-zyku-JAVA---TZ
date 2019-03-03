@@ -105,6 +105,8 @@ public class BramkaApp extends JDialog implements IBramka{
     @Override
     public boolean zamknijBramke() throws RemoteException {
         bramka.setRunning(false);
+        nCentrala.wyrejestrujBramke(bramka.getNr());
+        bramka.setNr(-1);
         updateButtonsStatus();
         return true;
     }
