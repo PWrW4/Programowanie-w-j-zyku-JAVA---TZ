@@ -25,21 +25,19 @@ public class BramkaApp extends JDialog implements IBramka{
 
     private Bramka bramka;
     private ICentrala nCentrala;
-    private Registry registry;
+    private IBramka nBramka;
 
 
-    public BramkaApp() {
+    private BramkaApp() {
         bramka = new Bramka(-1,0,0,false);
 
         try {
-            IBramka nBramka = (IBramka) UnicastRemoteObject.exportObject(this, 1999);
-            registry = LocateRegistry.getRegistry("localhost",Registry.REGISTRY_PORT);
+            nBramka = (IBramka) UnicastRemoteObject.exportObject(this, 1999);
+            Registry registry = LocateRegistry.getRegistry("localhost", Registry.REGISTRY_PORT);
 
             nCentrala = (ICentrala) registry.lookup("Centrala");
 
-            registry.bind("Bramka",nBramka);
-
-        } catch (AlreadyBoundException | IOException | NotBoundException e) {
+        } catch (IOException | NotBoundException e) {
             e.printStackTrace();
         }
 
@@ -54,6 +52,7 @@ public class BramkaApp extends JDialog implements IBramka{
             public void actionPerformed(ActionEvent e) {
                 try {
                     nCentrala.wyrejestrujBramke(bramka.getNr());
+                    bramka.setNr(-1);
                     updateButtonsStatus();
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
@@ -78,7 +77,7 @@ public class BramkaApp extends JDialog implements IBramka{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    bramka.setNr(nCentrala.zarejestrujBramke(bramka));
+                    bramka.setNr(nCentrala.zarejestrujBramke(nBramka));
                     updateButtonsStatus();
                 } catch (RemoteException e1) {
                     e1.printStackTrace();
@@ -96,18 +95,18 @@ public class BramkaApp extends JDialog implements IBramka{
 
 
     @Override
-    public int[] getStatystyka(Date pocz, Date kon) throws RemoteException {
-        return new int[0];
+    public int[] getStatystyka() throws RemoteException {
+        return new int[]{
+                bramka.getWekscia(),
+                bramka.getWyjscia(),
+        };
     }
 
     @Override
     public boolean zamknijBramke() throws RemoteException {
-        return false;
-    }
-
-    @Override
-    public int getNumer() throws RemoteException {
-        return 0;
+        bramka.setRunning(false);
+        updateButtonsStatus();
+        return true;
     }
 
     private void updateButtonsStatus(){

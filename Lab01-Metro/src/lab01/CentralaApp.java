@@ -3,18 +3,22 @@ package lab01;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CentralaApp extends JDialog implements ICentrala {
     private JPanel contentPane;
     private JButton exitButton;
     private JTable centralaTable;
+
+    private Map<Integer,IBramka> mapBramek = new HashMap<Integer,IBramka>();
+    private int licznik = 0;
+    private IMonitor nMonitor = null;
 
     public CentralaApp() {
         setContentPane(contentPane);
@@ -65,32 +69,39 @@ public class CentralaApp extends JDialog implements ICentrala {
     }
 
     @Override
-    public int zarejestrujBramke(Object bramka) throws RemoteException {
-        return 1;
+    public int zarejestrujBramke(IBramka bramka) throws RemoteException {
+        licznik++;
+        mapBramek.put(licznik,bramka);
+        updateMonitor();
+        return licznik;
     }
 
     @Override
     public boolean wyrejestrujBramke(int nrBramki) throws RemoteException {
+        mapBramek.remove(nrBramki);
+        updateMonitor();
         return true;
     }
 
     @Override
-    public ArrayList<Object> getZarejestrowaneBramki() throws RemoteException {
-        return null;
+    public Map<Integer, IBramka> getZarejestrowaneBramki() throws RemoteException {
+        return mapBramek;
     }
 
     @Override
-    public void zarejestrujMonitor(Object o) throws RemoteException {
-
+    public void zarejestrujMonitor(IMonitor o) throws RemoteException {
+        nMonitor = o;
     }
 
     @Override
     public void wyrejestrujMonitor() throws RemoteException {
-
+        nMonitor = null;
     }
 
-    @Override
-    public Object getMonitor() throws RemoteException {
-        return null;
+    public void updateMonitor() throws RemoteException {
+        if (nMonitor!=null){
+            nMonitor.koniecznaAktualizacja();
+        }
     }
+
 }
