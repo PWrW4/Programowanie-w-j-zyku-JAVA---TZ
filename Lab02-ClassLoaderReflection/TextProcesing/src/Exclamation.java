@@ -45,7 +45,7 @@ public class Exclamation implements ITextProcesing {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println("Ready ");
+            System.out.println("EXL: Ready ");
 
             DataInputStream inFromClient = null;
             try {
@@ -63,7 +63,7 @@ public class Exclamation implements ITextProcesing {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println("Recived " + clientText);
+            System.out.println("EXL: Recived " + clientText);
 
             //procesing data
             if (clientText != null) {
@@ -72,7 +72,7 @@ public class Exclamation implements ITextProcesing {
 
             Socket outputSocket = null;
             try {
-                outputSocket = new Socket("localhost", 5999);
+                outputSocket = new Socket("localhost", outputPort);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -91,7 +91,7 @@ public class Exclamation implements ITextProcesing {
             }
 
 
-            System.out.println("Final output " + clientText);
+            System.out.println("EXL: Final output " + clientText);
         }
     }
 
