@@ -71,7 +71,7 @@ public class UpperCase implements ITextProcesing {
 
             Socket outputSocket= null;
             try {
-                outputSocket = new Socket("localhost", outputPort);
+                outputSocket = new Socket(outputHost, outputPort);
             } catch (IOException e) {
                 e.printStackTrace();
             }
