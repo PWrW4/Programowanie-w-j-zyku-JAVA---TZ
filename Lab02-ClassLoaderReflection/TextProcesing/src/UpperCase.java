@@ -44,7 +44,7 @@ public class UpperCase implements ITextProcesing {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println("Ready ");
+            System.out.println("UPP: Ready ");
 
             DataInputStream inFromClient= null;
             try {
@@ -62,16 +62,16 @@ public class UpperCase implements ITextProcesing {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println("Recived "+clientText);
+            System.out.println("UPP: Recived "+clientText);
 
             //procesing data
             if (clientText != null) {
-                clientText.toUpperCase();
+                clientText = clientText.toUpperCase();
             }
 
             Socket outputSocket= null;
             try {
-                outputSocket = new Socket("localhost", 5999);
+                outputSocket = new Socket(outputHost, outputPort);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -90,7 +90,7 @@ public class UpperCase implements ITextProcesing {
             }
 
 
-            System.out.println("Final output "+clientText);
+            System.out.println("UPP: Final output "+clientText);
         }
     }
 
