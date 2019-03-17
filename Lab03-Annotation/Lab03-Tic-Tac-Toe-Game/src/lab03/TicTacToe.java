@@ -58,17 +58,8 @@ public class TicTacToe extends JPanel {
 
         JButton submitChanges = new JButton("Reset/Apply setting");
         JButton choseClass = new JButton("Chose class");
-        JButton loadClass = new JButton("Load class");
 
         JComboBox<String> difficultyChoose = new JComboBox<>(new String[]{Easy.toString(), Medium.toString(), Hard.toString()});
-
-
-        loadClass.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                aiModule.setClass(classPath.getText());
-            }
-        });
 
         choseClass.addActionListener(new ActionListener() {
             @Override
@@ -149,7 +140,6 @@ public class TicTacToe extends JPanel {
         settingsPanel.add(submitChanges);
         settingsPanel.add(choseClass);
         settingsPanel.add(classPath);
-        settingsPanel.add(loadClass);
         settingsPanel.add(difficultyChoose);
 
         panelik.setMaximumSize(new Dimension(600, 700));
@@ -210,6 +200,8 @@ public class TicTacToe extends JPanel {
                     buttonClicked.setText("O");
 
                 cross = !cross;
+            }else {
+                return;
             }
 
             boolean reset = true;
@@ -235,6 +227,21 @@ public class TicTacToe extends JPanel {
             aiMove();
 
             cross = !cross;
+
+            reset = true;
+
+            for (int i = 0; i < sizeY; i++) {
+                for (int j = 0; j < sizeX; j++) {
+                    if (buttons[i][j].getText().equals("")) {
+                        reset = false;
+                    }
+                }
+            }
+
+            if (reset) {
+                JOptionPane.showMessageDialog(null, "Draw... Restarting!");
+                resetButtons();
+            }
 
             if (checkForWin()) {
                 JOptionPane.showMessageDialog(null, "Game Over.");
