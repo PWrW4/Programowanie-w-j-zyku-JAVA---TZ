@@ -2,7 +2,9 @@ package lab03.ticTacToeModules;
 
 import lab03.helpers.annotations.DifficultyLevel;
 import lab03.helpers.annotations.TicTacToeAI;
+import lab03.helpers.enumerators.Difficulty;
 
+import javax.swing.*;
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -15,12 +17,12 @@ import java.util.ArrayList;
 
 public class AIControl {
 
-    URLClassLoader urlClassLoader;
-    Class aiClass;
-    Object aiObject;
-    Constructor<?> aiClassConstructor;
+    private URLClassLoader urlClassLoader;
+    private Class aiClass;
+    private Object aiObject;
+    private Constructor<?> aiClassConstructor;
 
-    Method easy, medium, hard;
+    private Method easy, medium, hard;
 
 
     public boolean setClass(String classPathURL, String fileName) {
@@ -58,6 +60,10 @@ public class AIControl {
             e.printStackTrace();
         }
 
+        if (!aiClass.isAnnotationPresent(TicTacToeAI.class)){
+            return false;
+        }
+
         Method[] methods = aiClass.getDeclaredMethods();
 
         ArrayList<Annotation[]> annotations = new ArrayList<>();
@@ -80,7 +86,34 @@ public class AIControl {
         }
 
 
-        return aiClass.isAnnotationPresent(TicTacToeAI.class);
+        return true;
+    }
+
+    public void aiDoMove(JButton[][] buttons, int sizeX, int sizeY, String charToPut, Difficulty difficulty){
+
+        switch (difficulty) {
+            case Hard:
+                try {
+                    hard.invoke(aiObject,buttons,sizeX,sizeY,charToPut);
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case Medium:
+                try {
+                    medium.invoke(aiObject,buttons,sizeX,sizeY,charToPut);
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+                break;
+            case Easy:
+                try {
+                    easy.invoke(aiObject,buttons,sizeX,sizeY,charToPut);
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
 
     }
 }

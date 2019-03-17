@@ -8,6 +8,9 @@ import java.util.Random;
 @TicTacToeAI
 public class RandomAI {
 
+    public RandomAI(){
+        System.out.println("Initialized: " + this.getClass().getName().toString());
+    }
 
     @DifficultyLevel(level = Difficulty.Easy)
     public void totalRandom(JButton[][] buttons, int sizeX, int sizeY, String charToPut){

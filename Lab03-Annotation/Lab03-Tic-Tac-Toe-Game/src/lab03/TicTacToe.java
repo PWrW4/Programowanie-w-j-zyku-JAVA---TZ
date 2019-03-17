@@ -1,5 +1,6 @@
 package lab03;
 
+import lab03.helpers.enumerators.Difficulty;
 import lab03.ticTacToeModules.AIControl;
 
 import javax.swing.*;
@@ -8,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.Arrays;
 
 public class TicTacToe extends JPanel {
     private JButton[][] buttons;
@@ -16,7 +18,7 @@ public class TicTacToe extends JPanel {
     private int sizeX = 6;
     private int sizeY = 6;
 
-    private int winSize = 2;
+    private int winSize = 3;
 
     private AIControl aiModule;
 
@@ -51,6 +53,8 @@ public class TicTacToe extends JPanel {
         JButton submitChanges = new JButton("Reset/Apply setting");
         JButton choseClass = new JButton("Chose class");
         JButton loadClass = new JButton("Load class");
+
+        JComboBox petList = new JComboBox(new String[]{Arrays.toString(Difficulty.values())});
 
         choseClass.setPreferredSize(new Dimension(75, 24));
 
@@ -133,6 +137,7 @@ public class TicTacToe extends JPanel {
 
         setupTicTacToe();
         window.setVisible(true);
+        choseClass.doClick();
     }
 
     private void setupTicTacToe() {
@@ -201,6 +206,8 @@ public class TicTacToe extends JPanel {
 
             aiMove();
 
+            cross = !cross;
+
             if (checkForWin()) {
                 JOptionPane.showMessageDialog(null, "Game Over.");
                 resetButtons();
@@ -208,6 +215,15 @@ public class TicTacToe extends JPanel {
         }
 
         private void aiMove() {
+            String aiString;
+            if (cross){
+                aiString = "X";
+            }else {
+                aiString = "O";
+            }
+
+            aiModule.aiDoMove(buttons,sizeX,sizeY,aiString, Difficulty.Easy);
+
 
         }
 
