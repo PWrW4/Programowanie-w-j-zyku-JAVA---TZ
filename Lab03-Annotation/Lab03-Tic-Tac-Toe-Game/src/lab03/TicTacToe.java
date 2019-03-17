@@ -1,8 +1,9 @@
+package lab03;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
 
 public class TicTacToe extends JPanel
 {
