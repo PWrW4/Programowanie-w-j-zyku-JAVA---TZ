@@ -8,8 +8,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.util.Arrays;
+import java.util.Objects;
+
+import static lab03.helpers.enumerators.Difficulty.*;
 
 public class TicTacToe extends JPanel {
     private JButton[][] buttons;
@@ -21,6 +25,8 @@ public class TicTacToe extends JPanel {
     private int winSize = 3;
 
     private AIControl aiModule;
+
+    private Difficulty difficulty = Easy;
 
     private TicTacToe() {
         JFrame window = new JFrame("Tic-Tac-Toe");
@@ -48,15 +54,14 @@ public class TicTacToe extends JPanel {
         xSizeText.setPreferredSize(new Dimension(75, 24));
         ySizeText.setPreferredSize(new Dimension(75, 24));
         winSizeText.setPreferredSize(new Dimension(75, 24));
-        classPath.setPreferredSize(new Dimension(500, 24));
+        classPath.setPreferredSize(new Dimension(200, 24));
 
         JButton submitChanges = new JButton("Reset/Apply setting");
         JButton choseClass = new JButton("Chose class");
         JButton loadClass = new JButton("Load class");
 
-        JComboBox petList = new JComboBox(new String[]{Arrays.toString(Difficulty.values())});
+        JComboBox<String> difficultyChoose = new JComboBox<>(new String[]{Easy.toString(), Medium.toString(), Hard.toString()});
 
-        choseClass.setPreferredSize(new Dimension(75, 24));
 
         loadClass.addActionListener(new ActionListener() {
             @Override
@@ -73,16 +78,38 @@ public class TicTacToe extends JPanel {
                     int retVal = fileChooser.showOpenDialog(window);
                     if (retVal == JFileChooser.APPROVE_OPTION) {
                         File selectedfile = fileChooser.getSelectedFile();
+                        String fileTmpPath = null;
                         try {
-                            classPath.setText(String.valueOf(selectedfile.toURI().toURL()));
+                            fileTmpPath = String.valueOf(selectedfile.toURI().toURL());
                         } catch (MalformedURLException e1) {
                             e1.printStackTrace();
                         }
+                        classPath.setText(selectedfile.getName());
                         JOptionPane.showMessageDialog(window, classPath.getText());
-                        classLoaded = aiModule.setClass(classPath.getText(), selectedfile.getName());
+                        classLoaded = aiModule.setClass(fileTmpPath, selectedfile.getName());
                     }
                 } while (!classLoaded);
 
+            }
+        });
+
+        difficultyChoose.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (difficultyChoose.getSelectedItem() != null) {
+                    if (Easy.toString().equals(difficultyChoose.getSelectedItem().toString())) {
+                        difficulty = Easy;
+                    }
+
+                    if (Medium.toString().equals(difficultyChoose.getSelectedItem().toString())) {
+                        difficulty = Medium;
+                    }
+
+                    if (Hard.toString().equals(difficultyChoose.getSelectedItem().toString())) {
+                        difficulty = Hard;
+                    }
+                    JOptionPane.showMessageDialog(null, "Changed difficulty!");
+                }
             }
         });
 
@@ -123,6 +150,7 @@ public class TicTacToe extends JPanel {
         settingsPanel.add(choseClass);
         settingsPanel.add(classPath);
         settingsPanel.add(loadClass);
+        settingsPanel.add(difficultyChoose);
 
         panelik.setMaximumSize(new Dimension(600, 700));
         settingsPanel.setMaximumSize(new Dimension(600, 100));
@@ -222,7 +250,7 @@ public class TicTacToe extends JPanel {
                 aiString = "O";
             }
 
-            aiModule.aiDoMove(buttons,sizeX,sizeY,aiString, Difficulty.Easy);
+            aiModule.aiDoMove(buttons,sizeX,sizeY,aiString, difficulty);
 
 
         }

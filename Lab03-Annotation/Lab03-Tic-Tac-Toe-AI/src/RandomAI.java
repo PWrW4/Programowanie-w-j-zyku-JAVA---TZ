@@ -15,6 +15,8 @@ public class RandomAI {
     @DifficultyLevel(level = Difficulty.Easy)
     public void totalRandom(JButton[][] buttons, int sizeX, int sizeY, String charToPut){
 
+        System.out.println("Calling in: " + this.getClass().getName().toString() + " easy method");
+
         Random generator = new Random();
         int x = generator.nextInt(sizeX);
         int y = generator.nextInt(sizeY);
@@ -28,13 +30,13 @@ public class RandomAI {
 
     @DifficultyLevel(level = Difficulty.Medium)
     public void randomNextToOther(JButton[][] buttons, int sizeX, int sizeY, String charToPut){
-        System.out.println("medium");
+        System.out.println("Calling in: " + this.getClass().getName().toString() + " medium method");
         totalRandom(buttons,sizeX,sizeY,charToPut);
     }
 
     @DifficultyLevel(level = Difficulty.Hard)
     public void randomNextToMy(JButton[][] buttons, int sizeX, int sizeY, String charToPut){
-        System.out.println("hard");
+        System.out.println("Calling in: " + this.getClass().getName().toString() + " hard method");
         totalRandom(buttons,sizeX,sizeY,charToPut);
     }
 
