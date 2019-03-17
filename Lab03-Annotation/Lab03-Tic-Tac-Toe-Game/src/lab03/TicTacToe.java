@@ -217,11 +217,13 @@ public class TicTacToe extends JPanel {
             if (reset) {
                 JOptionPane.showMessageDialog(null, "Draw... Restarting!");
                 resetButtons();
+                return;
             }
 
             if (checkForWin()) {
                 JOptionPane.showMessageDialog(null, "Game Over.");
                 resetButtons();
+                return;
             }
 
             aiMove();
@@ -241,11 +243,13 @@ public class TicTacToe extends JPanel {
             if (reset) {
                 JOptionPane.showMessageDialog(null, "Draw... Restarting!");
                 resetButtons();
+                return;
             }
 
             if (checkForWin()) {
                 JOptionPane.showMessageDialog(null, "Game Over.");
                 resetButtons();
+                return;
             }
         }
 
