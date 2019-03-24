@@ -1,8 +1,10 @@
+import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.*;
+import lab04.*;
 import net.miginfocom.swing.*;
-import ziarenka.*;
 /*
- * Created by JFormDesigner on Sun Mar 24 14:22:26 CET 2019
+ * Created by JFormDesigner on Sun Mar 24 21:28:10 CET 2019
  */
 
 
@@ -18,6 +20,7 @@ public class test extends JPanel {
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Wojciech
+        note1 = new Note();
 
         //======== this ========
 
@@ -38,6 +41,15 @@ public class test extends JPanel {
             "[fill]" +
             "[fill]" +
             "[fill]" +
+            "[fill]" +
+            "[fill]" +
+            "[fill]" +
+            "[fill]" +
+            "[fill]" +
+            "[fill]" +
+            "[fill]" +
+            "[fill]" +
+            "[fill]" +
             "[fill]",
             // rows
             "[]" +
@@ -47,11 +59,17 @@ public class test extends JPanel {
             "[]" +
             "[]" +
             "[]" +
+            "[]" +
             "[]"));
+
+        //---- note1 ----
+        note1.setNoteTitle("dupa");
+        add(note1, "cell 9 5");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - Wojciech
+    private Note note1;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

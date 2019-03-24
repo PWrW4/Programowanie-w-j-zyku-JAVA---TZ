@@ -9,11 +9,12 @@ import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.beans.SimpleBeanInfo;
 import java.io.IOException;
+import java.util.Objects;
 
-public class NoteBeanBeanInfo extends SimpleBeanInfo {
+public class NoteBeanInfo extends SimpleBeanInfo {
 
     public Image getIcon(int iconType) {
-        String name = "";
+        String name;
         if (iconType == BeanInfo.ICON_COLOR_16x16)
             name = "COLOR_16x16";
         else if (iconType == BeanInfo.ICON_COLOR_32x32)
@@ -22,7 +23,7 @@ public class NoteBeanBeanInfo extends SimpleBeanInfo {
             return null;
         Image im = null;
         try {
-            im = ImageIO.read(NoteBeanBeanInfo.class.getClassLoader().getResourceAsStream("note_" + name + ".png"));
+            im = ImageIO.read(Objects.requireNonNull(NoteBeanInfo.class.getClassLoader().getResourceAsStream("note_" + name + ".png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -31,13 +32,12 @@ public class NoteBeanBeanInfo extends SimpleBeanInfo {
 
     public PropertyDescriptor[] getPropertyDescriptors() {
         try {
-            PropertyDescriptor titlePositionDescriptor = new PropertyDescriptor("titlePosition", NoteBean.class);
+            PropertyDescriptor titlePositionDescriptor = new PropertyDescriptor("titlePosition", Note.class);
             titlePositionDescriptor.setPropertyEditorClass(TitlePositionEditor.class);
-//            PropertyDescriptor valuesDescriptor = new PropertyDescriptor("values", NoteBean.class);
-//            valuesDescriptor.setPropertyEditorClass(DoubleArrayEditor.class);
 
             return new PropertyDescriptor[] {
-                    new PropertyDescriptor("title", NoteBean.class), titlePositionDescriptor,
+                    new PropertyDescriptor("noteTitle", Note.class),
+                    titlePositionDescriptor,
             };
         } catch (IntrospectionException e) {
             e.printStackTrace();

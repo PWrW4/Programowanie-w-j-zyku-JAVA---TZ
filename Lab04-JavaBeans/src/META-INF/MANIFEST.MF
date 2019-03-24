@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+
+Name: lab04.Note.class
+Java-Bean: True

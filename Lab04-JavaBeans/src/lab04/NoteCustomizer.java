@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.beans.*;
 import java.beans.PropertyChangeListener;
 
-public class NoteBeanCustomizer extends JTabbedPane implements Customizer {
+public class NoteCustomizer extends JTabbedPane implements Customizer {
 
 
     @Override
