@@ -1,6 +1,5 @@
-import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.*;
+
 import lab04.*;
 import net.miginfocom.swing.*;
 /*
@@ -50,6 +49,9 @@ public class test extends JPanel {
             "[fill]" +
             "[fill]" +
             "[fill]" +
+            "[fill]" +
+            "[fill]" +
+            "[fill]" +
             "[fill]",
             // rows
             "[]" +
@@ -61,10 +63,7 @@ public class test extends JPanel {
             "[]" +
             "[]" +
             "[]"));
-
-        //---- note1 ----
-        note1.setNoteTitle("dupa");
-        add(note1, "cell 9 5");
+        add(note1, "cell 7 6");
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 

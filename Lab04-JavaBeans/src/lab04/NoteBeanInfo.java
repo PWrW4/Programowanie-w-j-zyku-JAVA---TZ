@@ -32,12 +32,11 @@ public class NoteBeanInfo extends SimpleBeanInfo {
 
     public PropertyDescriptor[] getPropertyDescriptors() {
         try {
-            PropertyDescriptor titlePositionDescriptor = new PropertyDescriptor("titlePosition", Note.class);
-            titlePositionDescriptor.setPropertyEditorClass(TitlePositionEditor.class);
 
             return new PropertyDescriptor[] {
                     new PropertyDescriptor("noteTitle", Note.class),
-                    titlePositionDescriptor,
+                    new PropertyDescriptor("minX", Note.class),
+                    new PropertyDescriptor("minY", Note.class),
             };
         } catch (IntrospectionException e) {
             e.printStackTrace();

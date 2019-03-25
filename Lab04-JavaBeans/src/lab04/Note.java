@@ -2,17 +2,45 @@ package lab04;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.Rectangle2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Note extends JPanel {
+
+
+    private String noteTitle = "My Note";
+    private int startDate = 0;
+    private int endDate = 5;
+
+    private int minX = 250;
+    private int minY = 550;
+
+
+    private ArrayList<NoteData> notes = new ArrayList<NoteData>() {
+        {
+            add(new NoteData("Notatka 1", 1));
+            add(new NoteData("Notatka 2", 5));
+            add(new NoteData("Notatka 3", 7));
+        }
+    };
+
 
     private JLabel titleLabel;
     private JLabel startTime;
     private JTextField textStart;
     private JLabel endTime;
     private JTextField textEnd;
+    private JButton filter;
+    private JButton delete;
+    private JList<String> listOfNotes;
+
+    private JTextField addTitle;
+    private JTextField addDate;
+    private JButton add;
+
+
+    private DefaultListModel<String> listModel;
 
     public Note() {
         setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -22,43 +50,100 @@ public class Note extends JPanel {
         textStart = new JTextField("0");
         endTime = new JLabel("End Date:");
         textEnd = new JTextField("10");
+        filter = new JButton("Show notes");
+        delete = new JButton("Delete");
+        addTitle = new JTextField("");
+        addDate = new JTextField("");
+        add = new JButton("Add");
+        listOfNotes = new JList<>();
+
+        titleLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+
+        delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                for (NoteData data : notes) {
+                    if (listOfNotes.getSelectedValue().equals(data.toString())) {
+                        notes.remove(data);
+                    }
+                }
+
+                listModel.clear();
+
+                for (NoteData data : notes) {
+                    if (data.getDate() > getStartDate() && data.getDate() < getEndDate()) {
+                        listModel.addElement(data.toString());
+                    }
+                }
+
+                listOfNotes.setModel(listModel);
+
+            }
+        });
+
+        filter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                setStartDate(Integer.parseInt(textStart.getText()));
+                setEndDate(Integer.parseInt(textEnd.getText()));
+
+                listModel.clear();
+
+                for (NoteData data : notes) {
+                    if (data.getDate() > getStartDate() && data.getDate() < getEndDate()) {
+                        listModel.addElement(data.toString());
+                    }
+                }
+
+                listOfNotes.setModel(listModel);
+
+            }
+        });
+
+        add.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                notes.add(new NoteData(addTitle.getText(), Integer.parseInt(addDate.getText())));
+
+                listModel.clear();
+
+                for (NoteData data : notes) {
+                    listModel.addElement(data.toString());
+                }
+
+                listOfNotes.setModel(listModel);
+            }
+        });
+
+
+        titleLabel.setFont(new Font("Serif", Font.PLAIN, 18));
+
+        this.setMinimumSize(new Dimension(minX, minY));
+
+        listModel = new DefaultListModel<String>();
+
+        for (NoteData data : notes) {
+            listModel.addElement(data.toString());
+        }
+
+        listOfNotes.setModel(listModel);
+
 
         add(titleLabel);
         add(startTime);
         add(textStart);
         add(endTime);
         add(textEnd);
-
-        DefaultListModel<String> listModel = new DefaultListModel<>();
-
-        for (NoteData data : notes){
-            listModel.addElement(data.toString());
-        }
-
-//        listModel.addElement(notes.get(0).toString());
-//        listModel.addElement(notes.get(1).toString());
-//        listModel.addElement(notes.get(2).toString());
-
-        this.add(new JList<>(listModel));
+        add(filter);
+        add(new JScrollPane(listOfNotes));
+        add(delete);
+        add(addTitle);
+        add(addDate);
+        add(add);
     }
-
-    String noteTitle = "My Note";
-    int startDate = 0;
-    int endDate = 5;
-
-    ArrayList<NoteData> notes = new ArrayList<NoteData>(){
-        {
-            add(new NoteData("Notatka 1", 1));
-            add(new NoteData("Notatka 2", 5));
-            add(new NoteData("Notatka 3", 7));
-        }
-    };
-
-    private static final int LEFT = 0;
-    private static final int CENTER = 1;
-    private static final int RIGHT = 2;
-
-    private int titlePosition = CENTER;
 
 
     public String getNoteTitle() {
@@ -68,6 +153,14 @@ public class Note extends JPanel {
     public void setNoteTitle(String noteTitle) {
         this.noteTitle = noteTitle;
         titleLabel.setText(noteTitle);
+    }
+
+    public ArrayList<NoteData> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(ArrayList<NoteData> notes) {
+        this.notes = notes;
     }
 
     public int getStartDate() {
@@ -86,18 +179,26 @@ public class Note extends JPanel {
         this.endDate = endDate;
     }
 
-    public int getTitlePosition() {
-        return titlePosition;
+    public int getMinX() {
+        return minX;
     }
 
-    public void setTitlePosition(int titlePosition) {
-        this.titlePosition = titlePosition;
+    public void setMinX(int minX) {
+        this.minX = minX;
+        this.setMinimumSize(new Dimension(minX, minY));
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    public int getMinY() {
+        return minY;
     }
 
+    public void setMinY(int minY) {
+        this.minY = minY;
+        this.setMinimumSize(new Dimension(minX, minY));
+    }
+
+    public static void main(String[] args) {
+        new Note();
+    }
 
 }
