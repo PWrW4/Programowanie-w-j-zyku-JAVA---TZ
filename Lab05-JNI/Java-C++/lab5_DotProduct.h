@@ -29,7 +29,7 @@ JNIEXPORT jdouble JNICALL Java_lab5_DotProduct_multi02
  * Signature: ()V
  */
 JNIEXPORT void JNICALL Java_lab5_DotProduct_multi03
-        (JNIEnv *, jobject);
+        (JNIEnv * env, jobject thisObj);
 
 #ifdef __cplusplus
 }
