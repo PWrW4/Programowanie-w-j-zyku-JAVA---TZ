@@ -17,6 +17,9 @@ jdouble Java_lab5_DotProduct_multi01(JNIEnv * env, jobject thisObj, jdoubleArray
 //        cout<<arrA[i] * arrB[i]<<endl;
     }
 
+    env->ReleaseDoubleArrayElements(arrayA, arrA, 0);
+    env->ReleaseDoubleArrayElements(arrayB, arrB, 0);
+
     return sum;
 }
 
@@ -24,22 +27,20 @@ jdouble Java_lab5_DotProduct_multi02(JNIEnv * env, jobject thisObj, jdoubleArray
     jdouble sum = 0;
 
     jclass cls = env->GetObjectClass(thisObj);
-    jfieldID fid;
-    jdoubleArray arrayB;
-
+    jfieldID fid = env->GetFieldID(cls, "b", "[D");
 
     fid = env->GetFieldID(cls, "b", "[D");
     if (fid == 0)
         return -1;
 
-    jobject arrayBObj= env->GetObjectField(cls,fid);
+    jobject arrayBObj= env->GetObjectField(thisObj,fid);
 
-    arrayB = reinterpret_cast<jdoubleArray>(arrayBObj);
+    jdoubleArray * arrayB = reinterpret_cast<jdoubleArray*>(&arrayBObj);
 
     jsize len = env->GetArrayLength(arrayA);
 
     jdouble *arrA = env->GetDoubleArrayElements(arrayA,false);
-    jdouble *arrB = env->GetDoubleArrayElements(arrayB,false);
+    jdouble *arrB = env->GetDoubleArrayElements(*arrayB,false);
 
 
 
@@ -47,6 +48,9 @@ jdouble Java_lab5_DotProduct_multi02(JNIEnv * env, jobject thisObj, jdoubleArray
         sum += arrA[i] * arrB[i];
 //        cout<<arrA[i] * arrB[i]<<endl;
     }
+
+    env->ReleaseDoubleArrayElements(arrayA, arrA, 0);
+    env->ReleaseDoubleArrayElements(*arrayB, arrB, 0);
 
     return sum;
 }

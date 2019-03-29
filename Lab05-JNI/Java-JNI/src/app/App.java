@@ -11,7 +11,7 @@ public class App {
         dot.multi03();
 
         System.out.println(dot.multi00(dot.a,dot.b));
-        //System.out.println(dot.multi01(dot.a,dot.b));
+        System.out.println(dot.multi01(dot.a,dot.b));
         System.out.println(dot.multi02(dot.a));
     }
 
