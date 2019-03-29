@@ -6,7 +6,13 @@ public class App {
 
     // Test
     public static void main(String[] args) {
-        new DotProduct().multi03();  // Create an instance and invoke the native method
+        DotProduct dot = new DotProduct(); // Create an instance and invoke the native method
+
+        dot.multi03();
+
+        System.out.println(dot.multi00(dot.a,dot.b));
+        //System.out.println(dot.multi01(dot.a,dot.b));
+        System.out.println(dot.multi02(dot.a));
     }
 
 }

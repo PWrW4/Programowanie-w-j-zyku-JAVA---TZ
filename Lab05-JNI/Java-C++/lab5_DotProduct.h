@@ -10,18 +10,18 @@ extern "C" {
 /*
  * Class:     lab5_DotProduct
  * Method:    multi01
- * Signature: ([Ljava/lang/Double;[Ljava/lang/Double;)Ljava/lang/Double;
+ * Signature: ([D[D)D
  */
-JNIEXPORT jobject JNICALL Java_lab5_DotProduct_multi01
-  (JNIEnv *env, jobject thisObj, jobjectArray arrayA, jobjectArray arrayB);
+JNIEXPORT jdouble JNICALL Java_lab5_DotProduct_multi01
+        (JNIEnv * env, jobject thisObj, jdoubleArray arrayA, jdoubleArray arrayB);
 
 /*
  * Class:     lab5_DotProduct
  * Method:    multi02
- * Signature: ([Ljava/lang/Double;)Ljava/lang/Double;
+ * Signature: ([D)D
  */
-JNIEXPORT jobject JNICALL Java_lab5_DotProduct_multi02
-  (JNIEnv *env, jobject thisObj, jobjectArray arrayA);
+JNIEXPORT jdouble JNICALL Java_lab5_DotProduct_multi02
+        (JNIEnv * env, jobject thisObj, jdoubleArray arrayA);
 
 /*
  * Class:     lab5_DotProduct
@@ -29,7 +29,7 @@ JNIEXPORT jobject JNICALL Java_lab5_DotProduct_multi02
  * Signature: ()V
  */
 JNIEXPORT void JNICALL Java_lab5_DotProduct_multi03
-  (JNIEnv *env, jobject thisObj);
+        (JNIEnv *, jobject);
 
 #ifdef __cplusplus
 }
