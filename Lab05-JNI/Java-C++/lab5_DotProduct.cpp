@@ -4,15 +4,15 @@
 
 using namespace std;
 
-jobject Java_lab5_DotProduct_multi01(JNIEnv *, jobject, jobjectArray, jobjectArray) {
+jobject Java_lab5_DotProduct_multi01(JNIEnv *env, jobject thisObj, jobjectArray arrayA, jobjectArray arrayB) {
     return nullptr;
 }
 
-jobject Java_lab5_DotProduct_multi02(JNIEnv *, jobject, jobjectArray) {
+jobject Java_lab5_DotProduct_multi02(JNIEnv *env, jobject thisObj, jobjectArray arrayA) {
     return nullptr;
 }
 
-void Java_lab5_DotProduct_multi03(JNIEnv *, jobject) {
-    cout<<"dupa"<<endl;
+void Java_lab5_DotProduct_multi03(JNIEnv *env, jobject thisObj) {
+    cout<<"dupa1"<<endl;
 }
 

@@ -8,5 +8,5 @@ public class App {
     public static void main(String[] args) {
         new DotProduct().multi03();  // Create an instance and invoke the native method
     }
-    
+
 }
