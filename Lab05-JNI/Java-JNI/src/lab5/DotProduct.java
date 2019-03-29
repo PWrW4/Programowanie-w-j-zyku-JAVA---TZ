@@ -9,8 +9,12 @@ public class DotProduct {
         // This library contains a native method called sayHello()
     }
 
-    public double[] a = {1.0,3.0,-5.0};
-    public double[] b = {4.0,-2.0,-1.0};
+//    public double[] a = {1.0,3.0,-5.0};
+//    public double[] b = {4.0,-2.0,-1.0};
+//    public double c = -999.0;
+
+    public double[] a = {0,0,0};
+    public double[] b = {0,0,0};
     public double c = -999.0;
 
     public void printVariableC(){

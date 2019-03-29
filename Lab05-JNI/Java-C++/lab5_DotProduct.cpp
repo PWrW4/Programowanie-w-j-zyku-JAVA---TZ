@@ -28,8 +28,7 @@ jdouble Java_lab5_DotProduct_multi02(JNIEnv * env, jobject thisObj, jdoubleArray
 
     jclass cls = env->GetObjectClass(thisObj);
     jfieldID fid = env->GetFieldID(cls, "b", "[D");
-
-    fid = env->GetFieldID(cls, "b", "[D");
+    
     if (fid == 0)
         return -1;
 
@@ -56,6 +55,7 @@ jdouble Java_lab5_DotProduct_multi02(JNIEnv * env, jobject thisObj, jdoubleArray
 }
 
 void Java_lab5_DotProduct_multi03(JNIEnv *, jobject) {
-    cout<<"dupa2"<<endl;
+    double a[] = {1,3,-5};
+    double b[] = {4,-2,-1};
 }
 
