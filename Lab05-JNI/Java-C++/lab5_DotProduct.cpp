@@ -114,6 +114,28 @@ void Java_lab5_DotProduct_multi03(JNIEnv *env, jobject thisObj) {
     if (fidA == NULL || fidB == NULL)
         return;
 
+    jclass doubleClass = env->FindClass("java/lang/Double");
+
+    jobjectArray arrA = env->NewObjectArray(arraysSize,doubleClass,NULL);
+    jobjectArray arrB = env->NewObjectArray(arraysSize,doubleClass,NULL);
+
+    jobject Aobj;
+    jobject Bobj;
+
+    jmethodID initD = env->GetMethodID(doubleClass, "<init>", "(D)V");
+
+    for (int i = 0; i < arraysSize; ++i) {
+
+        Aobj = env->NewObject(doubleClass,initD,a[i]);
+        Bobj = env->NewObject(doubleClass,initD,b[i]);
+
+        env->SetObjectArrayElement(arrA,i,Aobj);
+        env->SetObjectArrayElement(arrB,i,Bobj);
+    }
+
+    env->SetObjectField(thisObj,fidA, arrA);
+    env->SetObjectField(thisObj,fidB, arrB);
+
     jmethodID multi04 = env->GetMethodID(cls,"multi04","()V");
     env->CallVoidMethod(thisObj,multi04);
 
