@@ -102,15 +102,20 @@ jobject Java_lab5_DotProduct_multi02(JNIEnv *env, jobject thisObj, jobjectArray 
 }
 
 void Java_lab5_DotProduct_multi03(JNIEnv *env, jobject thisObj) {
-//    jobjectArray a[] = {1.0,3.0,-5.0};
-//    jobjectArray b[] = {4.0,-2.0,-1.0};
-//
-//    jclass cls = env->GetObjectClass(thisObj);
-//    jfieldID fid = env->GetFieldID(cls, "a", "[D");
-//
-//    jsize len = env->GetArrayLength(a);
-//
-//    env->SetDoubleArrayRegion(a,0,len,)
+    double a[] = {1.0,3.0,-5.0};
+    double b[] = {4.0,-2.0,-1.0};
+
+    int arraysSize = (sizeof(a)/sizeof(*a));
+
+    jclass cls = env->GetObjectClass(thisObj);
+    jfieldID fidA = env->GetFieldID(cls, "a", "[Ljava/lang/Double;");
+    jfieldID fidB = env->GetFieldID(cls, "b", "[Ljava/lang/Double;");
+
+    if (fidA == NULL || fidB == NULL)
+        return;
+
+    jmethodID multi04 = env->GetMethodID(cls,"multi04","()V");
+    env->CallVoidMethod(thisObj,multi04);
 
 }
 
