@@ -12,16 +12,16 @@ extern "C" {
  * Method:    multi01
  * Signature: ([D[D)D
  */
-JNIEXPORT jdouble JNICALL Java_lab5_DotProduct_multi01
-        (JNIEnv * env, jobject thisObj, jdoubleArray arrayA, jdoubleArray arrayB);
+JNIEXPORT jobject JNICALL Java_lab5_DotProduct_multi01
+        (JNIEnv * env, jobject thisObj, jobjectArray arrayA, jobjectArray arrayB);
 
 /*
  * Class:     lab5_DotProduct
  * Method:    multi02
  * Signature: ([D)D
  */
-JNIEXPORT jdouble JNICALL Java_lab5_DotProduct_multi02
-        (JNIEnv * env, jobject thisObj, jdoubleArray arrayA);
+JNIEXPORT jobject JNICALL Java_lab5_DotProduct_multi02
+        (JNIEnv * env, jobject thisObj, jobjectArray arrayA);
 
 /*
  * Class:     lab5_DotProduct
