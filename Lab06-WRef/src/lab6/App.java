@@ -10,15 +10,19 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Objects;
+import java.util.Queue;
+
+//-Xms150m -Xmx400m
 
 public class App extends JFrame {
 
-    public ArrayList<WeakReference<ImageIcon>> weakImages = new ArrayList<WeakReference<ImageIcon>>();
+    private ArrayList<WeakReference<ImageIcon>> weakImages = new ArrayList<WeakReference<ImageIcon>>();
 
-    
+    private Queue<ImageIcon> cacheQueue = new LinkedList<ImageIcon>();
 
-    final int numberOfPictures = 6;
+    final int numberOfPictures = 10;
     final int showedAtOnce = 2;
     private int currentIndex = 0;
 
@@ -34,6 +38,10 @@ public class App extends JFrame {
     private JButton downButton;
 
     public App(){
+        cacheQueue.add(null);
+        cacheQueue.add(null);
+        cacheQueue.add(null);
+
         initImages();
 
         finalPanelik = new JPanel();
@@ -53,12 +61,14 @@ public class App extends JFrame {
         if (weakImages.get(0).get()!=null){
             jLabeOne.setIcon(weakImages.get(0).get());
         }else{
+            System.out.println("Init Loading 0.jpg");
             jLabeOne.setIcon(loadIcon("0.jpg"));
             weakImages.set(0,new WeakReference<ImageIcon>((ImageIcon) jLabeOne.getIcon()));
         }
         if (weakImages.get(1).get()!=null){
             jLabeTwo.setIcon(weakImages.get(1).get());
         }else{
+            System.out.println("Init Loading 1.jpg");
             jLabeTwo.setIcon(loadIcon("1.jpg"));
             weakImages.set(1,new WeakReference<ImageIcon>((ImageIcon) jLabeTwo.getIcon()));
         }
@@ -116,6 +126,7 @@ public class App extends JFrame {
             return;
         }
         currentIndex--;
+        cacheQueue.add((ImageIcon) jLabeTwo.getIcon());
         jLabeTwo.setIcon(jLabeOne.getIcon());
 //        jLabeOne.setIcon(loadIcon(Integer.toString(currentIndex)+".jpg"));
         if (weakImages.get(currentIndex).get()!=null){
@@ -127,6 +138,7 @@ public class App extends JFrame {
             weakImages.set(currentIndex,new WeakReference<ImageIcon>((ImageIcon) jLabeOne.getIcon()));
         }
         System.out.println(Integer.toString(currentIndex)+" "+Integer.toString(currentIndex+1));
+        cacheQueue.poll();
     }
 
     private void downAction() {
@@ -134,6 +146,7 @@ public class App extends JFrame {
             return;
         }
         currentIndex++;
+        cacheQueue.add((ImageIcon) jLabeOne.getIcon());
         jLabeOne.setIcon(jLabeTwo.getIcon());
 //        jLabeTwo.setIcon(loadIcon(Integer.toString(currentIndex+1)+".jpg"));
         if (weakImages.get(currentIndex+1).get()!=null){
@@ -145,11 +158,14 @@ public class App extends JFrame {
             weakImages.set(currentIndex+1,new WeakReference<ImageIcon>((ImageIcon) jLabeTwo.getIcon()));
         }
         System.out.println(Integer.toString(currentIndex)+" "+Integer.toString(currentIndex+1));
+        cacheQueue.poll();
     }
 
     private ImageIcon loadIcon(String file){
         BufferedImage tmp = null;
         Image scalledImage;
+
+        System.out.println("Loading: " + file);
 
         try {
             tmp = ImageIO.read(new File(file));
