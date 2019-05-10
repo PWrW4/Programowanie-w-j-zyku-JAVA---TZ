@@ -1,6 +1,8 @@
 package lab07.DBService.Helpers;
 
 
+import lab07.DBService.Helpers.Emums.DoctorType;
+
 public class Doctor {
 
     private int id;

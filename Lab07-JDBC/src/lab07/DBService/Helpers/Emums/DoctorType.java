@@ -1,4 +1,4 @@
-package lab07.DBService.Helpers;
+package lab07.DBService.Helpers.Emums;
 
 public enum DoctorType {
     Internista,

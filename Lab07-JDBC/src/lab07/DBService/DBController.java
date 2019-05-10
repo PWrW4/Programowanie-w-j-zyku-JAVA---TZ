@@ -1,7 +1,7 @@
 package lab07.DBService;
 
 import lab07.DBService.Helpers.Doctor;
-import lab07.DBService.Helpers.DoctorType;
+import lab07.DBService.Helpers.Emums.DoctorType;
 import lab07.DBService.Helpers.Patient;
 import lab07.DBService.Helpers.Visit;
 
@@ -13,7 +13,7 @@ public class DBController {
 
     private Connection conn = null;
 
-    DBController(){
+    public DBController(){
 
         String url = "jdbc:sqlite:./db.db";
 
@@ -243,7 +243,7 @@ public class DBController {
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                ret.add(new Doctor(rs.getInt("id"),rs.getString("neme"),rs.getString("surname"),Enum.valueOf(DoctorType.class,rs.getString("type"))));
+                ret.add(new Doctor(rs.getInt("id"),rs.getString("name"),rs.getString("surname"),Enum.valueOf(DoctorType.class,rs.getString("type"))));
 
             }
 
@@ -262,7 +262,7 @@ public class DBController {
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                ret.add(new Patient(rs.getInt("id"),rs.getString("neme"),rs.getString("surname")));
+                ret.add(new Patient(rs.getInt("id"),rs.getString("name"),rs.getString("surname")));
             }
 
         } catch (SQLException e) {
@@ -301,7 +301,7 @@ public class DBController {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-            d = new Doctor(rs.getInt("id"),rs.getString("neme"),rs.getString("surname"),Enum.valueOf(DoctorType.class,rs.getString("type")));
+            d = new Doctor(rs.getInt("id"),rs.getString("name"),rs.getString("surname"),Enum.valueOf(DoctorType.class,rs.getString("type")));
             }
 
         } catch (SQLException e) {
@@ -320,7 +320,7 @@ public class DBController {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-            p = new Patient(rs.getInt("id"),rs.getString("neme"),rs.getString("surname"));
+            p = new Patient(rs.getInt("id"),rs.getString("name"),rs.getString("surname"));
             }
 
         } catch (SQLException e) {
@@ -335,8 +335,8 @@ public class DBController {
         db.updatePatient(1,"Wojtek", "Wojcik");
         db.addDoctor("Wojtek", "W", DoctorType.Chirurg);
         db.updateDoctor(1,"Wojtek", "W", DoctorType.Internista);
-        db.addVisit(121,0,new Date(),0,0);
-        db.updateVisit(1,131,0,new Date(),0,0);
+        db.addVisit(121,0,new Date(),1,1);
+        db.updateVisit(1,131,0,new Date(),1,1);
 
         db.deleteDoctor(3);
         db.deletePatient(3);
