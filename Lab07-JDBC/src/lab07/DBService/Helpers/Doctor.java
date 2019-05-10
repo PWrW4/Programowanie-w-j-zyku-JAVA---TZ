@@ -1,6 +1,11 @@
-package lab07.Helpers;
+package lab07.DBService.Helpers;
 
-public class Patient {
+
+public class Doctor {
+
+    private int id;
+    private String name;
+    private String surname;
 
     public int getId() {
         return id;
@@ -26,13 +31,20 @@ public class Patient {
         this.surname = surname;
     }
 
-    private int id;
-    private String name;
-    private String surname;
+    public DoctorType getType() {
+        return type;
+    }
 
-    public Patient(int id, String name, String surname) {
+    public void setType(DoctorType type) {
+        this.type = type;
+    }
+
+    private DoctorType type;
+
+    public Doctor(int id, String name, String surname, DoctorType type) {
         this.id = id;
         this.name = name;
         this.surname = surname;
+        this.type = type;
     }
 }

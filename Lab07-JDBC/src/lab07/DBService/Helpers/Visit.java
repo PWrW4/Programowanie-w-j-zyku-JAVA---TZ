@@ -1,4 +1,4 @@
-package lab07.Helpers;
+package lab07.DBService.Helpers;
 
 import java.util.Date;
 

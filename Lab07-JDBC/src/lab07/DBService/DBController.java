@@ -1,9 +1,9 @@
-package lab07;
+package lab07.DBService;
 
-import lab07.Helpers.Doctor;
-import lab07.Helpers.DoctorType;
-import lab07.Helpers.Patient;
-import lab07.Helpers.Visit;
+import lab07.DBService.Helpers.Doctor;
+import lab07.DBService.Helpers.DoctorType;
+import lab07.DBService.Helpers.Patient;
+import lab07.DBService.Helpers.Visit;
 
 import java.sql.*;
 import java.util.ArrayList;
