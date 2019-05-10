@@ -1,8 +1,12 @@
 package lab07;
 
-import lab07.Helpers.DoctorTypes;
+import lab07.Helpers.Doctor;
+import lab07.Helpers.DoctorType;
+import lab07.Helpers.Patient;
+import lab07.Helpers.Visit;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class DBController {
@@ -80,7 +84,7 @@ public class DBController {
         }
     }
 
-    public void addDoctor(String name, String surname, DoctorTypes type){
+    public void addDoctor(String name, String surname, DoctorType type){
         String sql = "INSERT INTO doctors(name,surname,type) VALUES(?,?,?)";
 
         try{
@@ -129,7 +133,7 @@ public class DBController {
         }
     }
 
-    public void updateDoctor(int id, String name, String surname, DoctorTypes type){
+    public void updateDoctor(int id, String name, String surname, DoctorType type){
         String sql = "UPDATE  doctors SET"
                 + " name = ?,"
                 + " surname = ?,"
@@ -212,12 +216,125 @@ public class DBController {
         }
     }
 
+    public ArrayList<Visit> getVisits(){
+        String sql = "SELECT id, room, finished, time, doctor_id, patient_id FROM visits";
+        ArrayList<Visit> ret = new ArrayList<Visit>();
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                ret.add(new Visit(rs.getInt("id"), rs.getInt("room"),rs.getInt("finished"),new Date(),getDoctorID(rs.getInt("doctor_id")), getPatientID(rs.getInt("patient_id"))));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return ret;
+    }
+
+    public ArrayList<Doctor> getDoctors(){
+        String sql = "SELECT id, name, surname, type FROM doctors";
+        ArrayList<Doctor> ret = new ArrayList<Doctor>();
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                ret.add(new Doctor(rs.getInt("id"),rs.getString("neme"),rs.getString("surname"),Enum.valueOf(DoctorType.class,rs.getString("type"))));
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return ret;
+    }
+
+    public ArrayList<Patient> getPatients(){
+        String sql = "SELECT id, name, surname FROM patients";
+        ArrayList<Patient> ret = new ArrayList<Patient>();
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next()) {
+                ret.add(new Patient(rs.getInt("id"),rs.getString("neme"),rs.getString("surname")));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return ret;
+    }
+
+    public Visit getVisitID(int id){
+        String sql = "SELECT id, room, finished, time, doctor_id, patient_id FROM visits WHERE id = ?";
+        Visit v = null;
+
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,id);
+            ResultSet rs = pstmt.executeQuery();
+
+
+            while (rs.next()) {
+                v = new Visit(rs.getInt("id"), rs.getInt("room"),rs.getInt("finished"),new Date(),getDoctorID(rs.getInt("doctor_id")), getPatientID(rs.getInt("patient_id")));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return v;
+    }
+
+    public Doctor getDoctorID(int id){
+        String sql = "SELECT id, name, surname, type FROM doctors WHERE id = ?";
+        Doctor d = null;
+
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,id);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+            d = new Doctor(rs.getInt("id"),rs.getString("neme"),rs.getString("surname"),Enum.valueOf(DoctorType.class,rs.getString("type")));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return d;
+    }
+
+    public Patient getPatientID(int id){
+        String sql = "SELECT id, name, surname FROM patients WHERE id = ?";
+        Patient p = null;
+
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,id);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+            p = new Patient(rs.getInt("id"),rs.getString("neme"),rs.getString("surname"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return p;
+    }
+
     public static void main(String[] args) {
         DBController db = new DBController();
         db.addPatient("Wojtek", "W");
         db.updatePatient(1,"Wojtek", "Wojcik");
-        db.addDoctor("Wojtek", "W",DoctorTypes.Chirurg);
-        db.updateDoctor(1,"Wojtek", "W",DoctorTypes.Internista);
+        db.addDoctor("Wojtek", "W", DoctorType.Chirurg);
+        db.updateDoctor(1,"Wojtek", "W", DoctorType.Internista);
         db.addVisit(121,0,new Date(),0,0);
         db.updateVisit(1,131,0,new Date(),0,0);
 

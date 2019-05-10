@@ -1,6 +1,6 @@
 package lab07.Helpers;
 
-public enum DoctorTypes {
+public enum DoctorType {
     Internista,
     Chirurg,
     Kardiolog,
