@@ -180,6 +180,13 @@ public class DBController {
     public void deleteDoctor(int id) {
         String sql = "DELETE FROM doctors WHERE id = ?";
 
+        for (Visit v :
+                getVisits()) {
+            if (v.getDoctor().getId() == id){
+                deleteVisit(v.getId());
+            }
+        }
+
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, id);
@@ -187,12 +194,20 @@ public class DBController {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return;
         }
     }
 
     public void deletePatient(int id) {
         String sql = "DELETE FROM patients WHERE id = ?";
 
+        for (Visit v :
+                getVisits()) {
+            if (v.getPatient().getId() == id){
+                deleteVisit(v.getId());
+            }
+        }
+
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, id);
@@ -200,6 +215,7 @@ public class DBController {
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return;
         }
     }
 
@@ -331,16 +347,19 @@ public class DBController {
 
     public static void main(String[] args) {
         DBController db = new DBController();
-        db.addPatient("Wojtek", "W");
-        db.updatePatient(1,"Wojtek", "Wojcik");
-        db.addDoctor("Wojtek", "W", DoctorType.Chirurg);
-        db.updateDoctor(1,"Wojtek", "W", DoctorType.Internista);
-        db.addVisit(121,0,new Date(),1,1);
-        db.updateVisit(1,131,0,new Date(),1,1);
 
-        db.deleteDoctor(3);
-        db.deletePatient(3);
-        db.deleteVisit(3);
+        db.addPatient("Patient", "1");
+        db.addPatient("Patient", "2");
+        db.addPatient("Patient", "3");
+        db.addPatient("Patient", "4");
+        db.addDoctor("Doctor", "1", DoctorType.Chirurg);
+        db.addDoctor("Doctor", "2", DoctorType.Chirurg);
+        db.addDoctor("Doctor", "3", DoctorType.Kardiolog);
+        db.addDoctor("Doctor", "4", DoctorType.Internista);
+        db.addVisit(121,0,new Date(),1,1);
+        db.addVisit(121,0,new Date(),2,2);
+        db.addVisit(121,0,new Date(),3,3);
+
     }
 
 }

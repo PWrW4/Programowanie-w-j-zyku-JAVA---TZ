@@ -7,6 +7,8 @@ import lab07.DBService.Helpers.TableModels.VisitTModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainAppWindow extends JFrame {
     private JTabbedPane Tabs;
@@ -17,6 +19,10 @@ public class MainAppWindow extends JFrame {
     private JTable doctorTable;
     private JTable visitTable;
     private JTable patientTable;
+    private JButton addButton;
+    private JButton editButton;
+    private JButton deleteButton;
+    private JPanel buttonPanel;
 
     private DBController dbController = new DBController();
 
@@ -26,6 +32,29 @@ public class MainAppWindow extends JFrame {
         doctorTable.setModel(new DoctorTModel(dbController.getDoctors()));
         patientTable.setModel(new PatientTModel(dbController.getPatients()));
         visitTable.setModel(new VisitTModel(dbController.getVisits()));
+
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switch (Tabs.getTitleAt(Tabs.getSelectedIndex())){
+                    case "Doctors":
+                        dbController.deleteDoctor((int)doctorTable.getModel().getValueAt(doctorTable.getSelectedRow(),0));
+                        break;
+                    case "Patients":
+                        dbController.deletePatient((int)patientTable.getModel().getValueAt(patientTable.getSelectedRow(),0));
+                        break;
+                    case "Visits":
+                        dbController.deleteVisit((int)visitTable.getModel().getValueAt(visitTable.getSelectedRow(),0));
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(null,"Error in switch");
+                        break;
+                }
+                doctorTable.setModel(new DoctorTModel(dbController.getDoctors()));
+                patientTable.setModel(new PatientTModel(dbController.getPatients()));
+                visitTable.setModel(new VisitTModel(dbController.getVisits()));
+            }
+        });
 
         setMinimumSize(new Dimension(600,400));
         setContentPane(MainPanel);
