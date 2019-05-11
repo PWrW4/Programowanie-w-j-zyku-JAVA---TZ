@@ -93,13 +93,13 @@
               <text value="Patient"/>
             </properties>
           </component>
-          <component id="5a964" class="javax.swing.JComboBox" binding="patientCheckBox">
+          <component id="5a964" class="javax.swing.JComboBox" binding="patientCombo">
             <constraints>
               <grid row="4" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
           </component>
-          <component id="e8e14" class="javax.swing.JComboBox" binding="doctorCheckBox">
+          <component id="e8e14" class="javax.swing.JComboBox" binding="doctorCombo">
             <constraints>
               <grid row="3" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>

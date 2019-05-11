@@ -2,6 +2,7 @@ package lab07.App;
 
 import lab07.App.Dialogs.DoctorDialog;
 import lab07.App.Dialogs.PatientDialog;
+import lab07.App.Dialogs.VisitDialog;
 import lab07.DBService.DBController;
 import lab07.DBService.Helpers.TableModels.DoctorTModel;
 import lab07.DBService.Helpers.TableModels.PatientTModel;
@@ -98,6 +99,7 @@ public class MainAppWindow extends JFrame {
                     new PatientDialog((int) patientTable.getModel().getValueAt(patientTable.getSelectedRow(), 0), dbController);
                     break;
                 case "Visits":
+                    new VisitDialog((int) visitTable.getModel().getValueAt(visitTable.getSelectedRow(), 0), dbController);
                     break;
                 default:
                     JOptionPane.showMessageDialog(null, "Error in switch");
@@ -121,6 +123,7 @@ public class MainAppWindow extends JFrame {
                     new PatientDialog(-1, dbController);
                     break;
                 case "Visits":
+                    new VisitDialog(-1, dbController);
                     break;
                 default:
                     JOptionPane.showMessageDialog(null, "Error in switch");

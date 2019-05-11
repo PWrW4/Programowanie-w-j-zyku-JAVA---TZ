@@ -1,9 +1,12 @@
 package lab07.App.Dialogs;
 
 import lab07.DBService.DBController;
+import lab07.DBService.Helpers.Doctor;
+import lab07.DBService.Helpers.Patient;
 
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.Date;
 
 public class VisitDialog extends JDialog {
     private JPanel contentPane;
@@ -14,8 +17,8 @@ public class VisitDialog extends JDialog {
     private JLabel labelTime;
     private JLabel labelDoctor;
     private JLabel labelPatient;
-    private JComboBox patientCheckBox;
-    private JComboBox doctorCheckBox;
+    private JComboBox<Object> patientCombo;
+    private JComboBox<Object> doctorCombo;
     private JTextField timeText;
     private JTextField roomText;
     private JCheckBox finishedCheckBox;
@@ -25,6 +28,8 @@ public class VisitDialog extends JDialog {
 
     public VisitDialog(int idExitsing, DBController db) {
         this.db = db;
+        patientCombo.setModel(new DefaultComboBoxModel<>(db.getPatients().toArray()));
+        doctorCombo.setModel(new DefaultComboBoxModel<>(db.getDoctors().toArray()));
         if (idExitsing>0){
             id = idExitsing;
             timeText.setText(db.getVisitID(id).getTime().toString());
@@ -34,6 +39,23 @@ public class VisitDialog extends JDialog {
             }else{
                 finishedCheckBox.setSelected(true);
             }
+
+            String tmp_type = db.getVisitID(id).getPatient().toString();
+
+            for (int i=0;i<patientCombo.getModel().getSize();i++) {
+                if (tmp_type.hashCode() == patientCombo.getModel().getElementAt(i).toString().hashCode()){
+                    patientCombo.getModel().setSelectedItem(patientCombo.getModel().getElementAt(i));
+                }
+            }
+
+            tmp_type = db.getVisitID(id).getDoctor().toString();
+
+            for (int i=0;i<doctorCombo.getModel().getSize();i++) {
+                if (tmp_type.hashCode() == doctorCombo.getModel().getElementAt(i).toString().hashCode()){
+                    doctorCombo.getModel().setSelectedItem(doctorCombo.getModel().getElementAt(i));
+                }
+            }
+
         }else{
             id = -1;
         }
@@ -81,12 +103,36 @@ public class VisitDialog extends JDialog {
 
         int tmp_int=0;
 
-        if ()
+        if (finishedCheckBox.isSelected()){
+            tmp_int = 1;
+        }
+
+        int doctor=1;
+        int patient=1;
+
+        Patient tmp_Patient = null;
+        int int_Patient = -1;
+        Doctor tmp_Doctor = null;
+        int int_Doctor = -1;
+
+        for (Patient p :
+                db.getPatients()) {
+            if (p.toString().hashCode() == patientCombo.getSelectedItem().toString().hashCode()){
+                int_Patient = p.getId();
+            }
+        }
+
+        for (Doctor d :
+                db.getDoctors()) {
+            if (d.toString().hashCode() == doctorCombo.getSelectedItem().toString().hashCode()){
+                int_Doctor = d.getId();
+            }
+        }
 
         if (id!=-1){
-            db.updateVisit(id,textName.getText(),textSurname.getText());
+            db.updateVisit(id,Integer.parseInt(roomText.getText()),tmp_int,new Date(),int_Doctor,int_Patient);
         }else{
-            db.addVisit(Integer.parseInt(roomText.getText()),);
+            db.addVisit(Integer.parseInt(roomText.getText()),tmp_int,new Date(),int_Doctor,int_Patient);
         }
 
         dispose();
