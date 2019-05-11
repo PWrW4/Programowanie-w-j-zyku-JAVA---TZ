@@ -30,8 +30,6 @@ public class DoctorDialog extends JDialog {
             String tmp_type = db.getDoctorID(id).getType().toString();
 
             for (int i=0;i<comboBoxTypes.getModel().getSize();i++) {
-                System.out.println(tmp_type.hashCode());
-                System.out.println(comboBoxTypes.getModel().getElementAt(i).hashCode());
                 if (tmp_type.hashCode() == comboBoxTypes.getModel().getElementAt(i).toString().hashCode()){
                     comboBoxTypes.getModel().setSelectedItem(comboBoxTypes.getModel().getElementAt(i));
                 }
@@ -87,7 +85,9 @@ public class DoctorDialog extends JDialog {
             db.updateDoctor(id,textName.getText(),textSurname.getText(),(DoctorType) comboBoxTypes.getModel().getSelectedItem());
         }else{
             db.addDoctor(textName.getText(),textSurname.getText(),(DoctorType) comboBoxTypes.getModel().getSelectedItem());
-        }        dispose();
+        }
+
+        dispose();
     }
 
     private void onCancel() {

@@ -1,31 +1,39 @@
 package lab07.App.Dialogs;
 
 import lab07.DBService.DBController;
-import lab07.DBService.Helpers.Patient;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 
-public class PatientDialog extends JDialog {
+public class VisitDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
-    private JTextField textName;
-    private JLabel labelName;
-    private JTextField textSurname;
-    private JLabel labelSurname;
+    private JLabel labelRoom;
+    private JLabel labelFinished;
+    private JLabel labelTime;
+    private JLabel labelDoctor;
+    private JLabel labelPatient;
+    private JComboBox patientCheckBox;
+    private JComboBox doctorCheckBox;
+    private JTextField timeText;
+    private JTextField roomText;
+    private JCheckBox finishedCheckBox;
 
     int id=-1;
     DBController db;
 
-
-    public PatientDialog(int idExitsing, DBController db) {
+    public VisitDialog(int idExitsing, DBController db) {
         this.db = db;
         if (idExitsing>0){
             id = idExitsing;
-            textName.setText(db.getPatientID(id).getName());
-            textSurname.setText(db.getPatientID(id).getSurname());
+            timeText.setText(db.getVisitID(id).getTime().toString());
+            roomText.setText(Integer.toString(db.getVisitID(id).getRoom()));
+            if (db.getVisitID(id).getFinished()==0){
+                finishedCheckBox.setSelected(false);
+            }else{
+                finishedCheckBox.setSelected(true);
+            }
         }else{
             id = -1;
         }
@@ -33,7 +41,6 @@ public class PatientDialog extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-        setMinimumSize(new Dimension(200,300));
 
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -67,21 +74,26 @@ public class PatientDialog extends JDialog {
     }
 
     private void onOK() {
-        if (textName.getText().equals("") || textSurname.getText().equals("")){
+        if (timeText.getText().equals("") || roomText.getText().equals("")){
             JOptionPane.showMessageDialog(null,"Fields Empty");
             return;
         }
 
+        int tmp_int=0;
+
+        if ()
+
         if (id!=-1){
-            db.updatePatient(id,textName.getText(),textSurname.getText());
+            db.updateVisit(id,textName.getText(),textSurname.getText());
         }else{
-            db.addPatient(textName.getText(),textSurname.getText());
+            db.addVisit(Integer.parseInt(roomText.getText()),);
         }
 
         dispose();
     }
 
     private void onCancel() {
+        // add your code here if necessary
         dispose();
     }
 }

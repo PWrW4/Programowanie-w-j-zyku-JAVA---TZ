@@ -7,6 +7,7 @@ public class Doctor {
 
     private int id;
     private String name;
+
     private String surname;
 
     public int getId() {
@@ -48,5 +49,10 @@ public class Doctor {
         this.name = name;
         this.surname = surname;
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return name + " " +surname + " " + type.toString();
     }
 }
