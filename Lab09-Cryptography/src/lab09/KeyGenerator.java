@@ -21,6 +21,12 @@ public class KeyGenerator {
         this.pair = this.keyGen.generateKeyPair();
         this.privateKey = pair.getPrivate();
         this.publicKey = pair.getPublic();
+        try {
+            writeToFile("KeyPair/publicKey", getPublicKey().getEncoded());
+            writeToFile("KeyPair/privateKey", getPrivateKey().getEncoded());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public PrivateKey getPrivateKey() {
