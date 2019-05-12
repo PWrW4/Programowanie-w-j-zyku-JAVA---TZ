@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="encryptor">
+    <output-path>$PROJECT_DIR$/out/artifacts/encryptor</output-path>
+    <root id="archive" name="encryptor.jar">
+      <element id="module-output" name="Lab09-Cryptography" />
+      <element id="library" level="project" name="commons-codec-1.9" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>

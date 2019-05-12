@@ -75,6 +75,7 @@ public class App extends JFrame {
         try {
             enc.encryptFile(enc.getFileInBytes(f),f,enc.getPrivate("KeyPair/privateKey"));
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Encrypt error");
             e.printStackTrace();
         }
     }
@@ -83,6 +84,7 @@ public class App extends JFrame {
         try {
             enc.decryptFile(enc.getFileInBytes(f),f,enc.getPublic("KeyPair/publicKey"));
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null,"Decrypt error");
             e.printStackTrace();
         }
     }
