@@ -21,10 +21,14 @@ public class App extends JFrame {
     private JButton choseFileButton;
     private JLabel FilePath;
     private JButton generateKeysButton;
+    private JButton chosePrivateKeyButton;
+    private JButton chosePublicKeyButton;
 
     Encryptor enc;
     KeyGenerator kgen;
     File f = null;
+    File publicKey=null;
+    File privateKey=null;
 
     public App(String title) throws NoSuchPaddingException, NoSuchAlgorithmException, NoSuchProviderException {
         super(title);
@@ -69,11 +73,37 @@ public class App extends JFrame {
                 kgen.createKeys();
             }
         });
+        chosePrivateKeyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser chooser = new JFileChooser();
+                chooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+                int returnVal = chooser.showOpenDialog(null);
+                if(returnVal == JFileChooser.APPROVE_OPTION) {
+                    System.out.println("You chose to open this file: " +
+                            chooser.getSelectedFile().getName());
+                    privateKey = chooser.getSelectedFile();
+                }
+            }
+        });
+        chosePublicKeyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser chooser = new JFileChooser();
+                chooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+                int returnVal = chooser.showOpenDialog(null);
+                if(returnVal == JFileChooser.APPROVE_OPTION) {
+                    System.out.println("You chose to open this file: " +
+                            chooser.getSelectedFile().getName());
+                    publicKey = chooser.getSelectedFile();
+                }
+            }
+        });
     }
 
     private void encrypt() throws IOException {
         try {
-            enc.encryptFile(enc.getFileInBytes(f),f,enc.getPrivate("KeyPair/privateKey"));
+            enc.encryptFile(enc.getFileInBytes(f),f,enc.getPrivate(privateKey.getAbsolutePath()));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,"Encrypt error");
             e.printStackTrace();
@@ -82,7 +112,7 @@ public class App extends JFrame {
 
     private void decrypt() throws IOException {
         try {
-            enc.decryptFile(enc.getFileInBytes(f),f,enc.getPublic("KeyPair/publicKey"));
+            enc.decryptFile(enc.getFileInBytes(f),f,enc.getPublic(publicKey.getAbsolutePath()));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null,"Decrypt error");
             e.printStackTrace();
