@@ -1,3 +1,8 @@
 Manifest-Version: 1.0
 Main-Class: lab09.App
+Permissions: all-permissions
+Application-Name: Encryptor
+Application-Library-Allowable-Codebase: http://localhost:8080/downloads/encryptor.jar
+Caller-Allowable-Codebase: http://localhost:8080/downloads/
+Codebase: *
 
