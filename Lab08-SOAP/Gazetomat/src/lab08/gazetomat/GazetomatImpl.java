@@ -14,7 +14,7 @@ import java.util.Random;
 import static java.lang.Thread.sleep;
 
 @WebService(endpointInterface = "lab08.gazetomat.Gazetomat")
-public class GazetomatImpl implements Gazetomat, Runnable {
+public class GazetomatImpl implements Gazetomat {
 
     int ID = 1;
     List<Paper> papers = new ArrayList<Paper>();
@@ -24,9 +24,6 @@ public class GazetomatImpl implements Gazetomat, Runnable {
         papers.add(new Paper(10,"Wyborcza"));
         papers.add(new Paper(20,"Dziennik śląski"));
         papers.add(new Paper(30,"Bravo Girl"));
-
-        Thread thread = new Thread(this);
-        thread.start();
 
         CentralaImplService service = null;
         try {
@@ -57,13 +54,13 @@ public class GazetomatImpl implements Gazetomat, Runnable {
         this.papers = papers;
     }
 
-    private void changeValues() throws InterruptedException {
-        for (Paper paper: papers) {
-            paper.setCount(new Random().nextInt(100));
-        }
-        sleep(10000);
-        centrala.updateRequest(ID);
-    }
+//    private void changeValues() throws InterruptedException {
+//        for (Paper paper: papers) {
+//            paper.setCount(new Random().nextInt(100));
+//        }
+//        sleep(10000);
+//        centrala.updateRequest(ID);
+//    }
 
     @Override
     public int getId() {
@@ -75,14 +72,4 @@ public class GazetomatImpl implements Gazetomat, Runnable {
         return papers;
     }
 
-    @Override
-    public void run() {
-        try {
-            while (true) {
-                changeValues();
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
 }
