@@ -69,7 +69,7 @@ public class CentralaApp extends JFrame implements Runnable {
     public void run() {
         try {
             while (true){
-                Thread.sleep(5000);
+                Thread.sleep(3000);
                 for (Gazetomat g : centralaImpl.gazetomats){
                     centralaImpl.updateRequest(g.getId());
                 }
