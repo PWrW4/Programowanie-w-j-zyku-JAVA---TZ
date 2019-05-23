@@ -49,7 +49,7 @@ public class CentralaApp extends JFrame implements Runnable {
             StringBuilder sb = new StringBuilder();
             sb.append(gaz.getId()).append(": ");
             for (Paper p : gaz.getItems()){
-                sb.append(p.getName()).append(" : ").append(p.getCount());
+                sb.append(" ").append(p.getName()).append(" : ").append(p.getCount());
             }
             frontArray.add(sb.toString());
         }
@@ -68,9 +68,12 @@ public class CentralaApp extends JFrame implements Runnable {
     @Override
     public void run() {
         try {
-            Thread.sleep(1000);
-            for (Gazetomat g : centralaImpl.gazetomats){
-                centralaImpl.updateRequest(g.getId());
+            while (true){
+                Thread.sleep(5000);
+                for (Gazetomat g : centralaImpl.gazetomats){
+                    centralaImpl.updateRequest(g.getId());
+                }
+                updateList();
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

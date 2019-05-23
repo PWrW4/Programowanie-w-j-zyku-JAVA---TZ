@@ -15,7 +15,7 @@ public class CentralaImpl implements Centrala {
 
 
     private static int freePort = 8080;
-    public List<Gazetomat> gazetomats = new ArrayList<Gazetomat>();
+    public ArrayList<Gazetomat> gazetomats = new ArrayList<Gazetomat>();
 
     @Override
     public int getFreePort() {
@@ -40,9 +40,10 @@ public class CentralaImpl implements Centrala {
 
     @Override
     public void unregisterAutomat(int port) {
-        for (Gazetomat automat: gazetomats) {
-            if(automat.getId() == port) {
-                gazetomats.remove(automat);
+        for (int i=0; i<gazetomats.size();i++) {
+            if(gazetomats.get(i).getId() == port) {
+                gazetomats.remove(i);
+                break;
             }
             System.out.println(gazetomats);
         }
