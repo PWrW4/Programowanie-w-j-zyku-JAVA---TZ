@@ -22,11 +22,13 @@ public class App extends JFrame {
     private JPanel leftPanel;
     private JPanel rightPanel;
     private JTextArea inputTextArea;
-    private JTextArea outputTextArea;
+    private JEditorPane outputTextArea;
     private JLabel inputLabel;
     private JLabel outputLabel;
     private JComboBox<String> comboScripts;
     private JButton formatButton;
+    private JScrollPane inputScroll;
+    private JScrollPane outputScroll;
 
     private ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
     private List<String> files = null;
@@ -37,6 +39,12 @@ public class App extends JFrame {
         files = getJSFiles();
         comboScripts.setModel(new DefaultComboBoxModel<>(files.toArray(new String[0])));
         outputTextArea.setEditable(false);
+        outputTextArea.setContentType("text/html");
+        outputTextArea.setMinimumSize(new Dimension(200,200));
+        inputTextArea.setMinimumSize(new Dimension(200,200));
+        inputScroll.setMinimumSize(new Dimension(200,200));
+        outputScroll.setMinimumSize(new Dimension(200,200));
+        rightPanel.setMaximumSize(new Dimension(300,600));
 
         try {
             engine.eval(new FileReader("moralizator.js"));
@@ -44,7 +52,7 @@ public class App extends JFrame {
             e.printStackTrace();
         }
 
-
+        setResizable(false);
         setMinimumSize(new Dimension(600,600));
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
