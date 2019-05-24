@@ -95,12 +95,12 @@ public class App extends JFrame {
     private void comboBoxAction() {
         String converterName = (String)comboScripts.getSelectedItem();
 
+        assert converterName != null;
         if (converterName.equals("None")){
             return;
         }
 
         try {
-            assert converterName != null;
             engine.eval(new FileReader(converterName));
         } catch (FileNotFoundException | ScriptException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
