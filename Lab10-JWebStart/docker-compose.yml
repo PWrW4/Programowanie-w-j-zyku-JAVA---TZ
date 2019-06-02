@@ -4,4 +4,4 @@ nginx:
     - "./files:/files"
     - "./conf:/etc/nginx/conf.d"
   ports:
-    - "8080:80"
+    - "80:80"

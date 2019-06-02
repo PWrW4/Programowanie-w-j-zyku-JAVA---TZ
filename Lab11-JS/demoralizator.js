@@ -6,5 +6,5 @@ function process(input){
     temp = temp.replaceAll("o", "0");
     temp = temp.replaceAll("b", "8");
     
-    return temp + " xD";
+    return temp;
 }
