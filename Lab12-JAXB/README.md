@@ -1,0 +1,1 @@
+Generate classes: `xjc -d src/main/java -p offerPackage offer.xsd`
