@@ -6,10 +6,18 @@ import javax.swing.*;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.*;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -18,16 +26,14 @@ public class App extends JFrame {
     private JPanel mainPanel;
     private JPanel leftPanel;
     private JPanel rightPanel;
-    private JTextArea inputTextArea;
     private JEditorPane outputTextArea;
-    private JLabel inputLabel;
     private JLabel outputLabel;
     private JComboBox<String> comboStyles;
     private JComboBox<String> comboOffers;
     private JButton formatButton;
-    private JScrollPane inputScroll;
     private JScrollPane outputScroll;
     private JButton editAddButton;
+    private JButton refresh;
 
     private List<String> xmlFiles = null;
     private List<String> styleFiles = null;
@@ -42,8 +48,6 @@ public class App extends JFrame {
         outputTextArea.setEditable(false);
         outputTextArea.setContentType("text/html");
         outputTextArea.setMinimumSize(new Dimension(200,200));
-        inputTextArea.setMinimumSize(new Dimension(200,200));
-        inputScroll.setMinimumSize(new Dimension(200,200));
         outputScroll.setMinimumSize(new Dimension(200,200));
         rightPanel.setMaximumSize(new Dimension(300,600));
 
@@ -78,6 +82,12 @@ public class App extends JFrame {
                 editAction();
             }
         });
+        refresh.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                refreshFiles();
+            }
+        });
     }
 
     private void editAction() {
@@ -101,9 +111,14 @@ public class App extends JFrame {
         }
     }
 
-    private void comboStylesAction() {
+    private void refreshFiles(){
         styleFiles = getStyles();
         comboStyles.setModel(new DefaultComboBoxModel<>(styleFiles.toArray(new String[0])));
+        xmlFiles = getXmlOffers();
+        comboOffers.setModel(new DefaultComboBoxModel<>(xmlFiles.toArray(new String[0])));
+    }
+
+    private void comboStylesAction() {
         String converterName = (String)comboStyles.getSelectedItem();
 
         assert converterName != null;
@@ -113,18 +128,42 @@ public class App extends JFrame {
     }
 
     private void formatAction() {
-        if (Objects.requireNonNull(comboOffers.getSelectedItem()).toString().equals("None")){
-            outputTextArea.setText(inputTextArea.getText());
+        if (Objects.requireNonNull(comboOffers.getSelectedItem()).toString().equals("None") && Objects.requireNonNull(comboStyles.getSelectedItem()).toString().equals("None")){
+            JOptionPane.showMessageDialog(null,"something is `None`");
             return;
             }
+        StringWriter sw = new StringWriter();
 
-        outputTextArea.setText("");
+
+
+        Source xml = new StreamSource(new File("./dane/" + (String)comboOffers.getSelectedItem()));
+        Source xslt = new StreamSource("./transformacje/" + (String)comboStyles.getSelectedItem());
+
+        try {
+
+            FileWriter fw = new FileWriter("out.html");
+            TransformerFactory tFactory = TransformerFactory.newInstance();
+            Transformer trasform = tFactory.newTransformer(xslt);
+            trasform.transform(xml, new StreamResult(sw));
+            fw.write(sw.toString());
+            fw.close();
+
+            System.out
+                    .println("out.html generated successfully");
+
+        } catch (IOException | TransformerException | TransformerFactoryConfigurationError e) {
+            e.printStackTrace();
+        }
+
+        try {
+            outputTextArea.setText(new String(Files.readAllBytes(Paths.get("out.html"))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
     private void comboOffersAction() {
-        xmlFiles = getXmlOffers();
-        comboOffers.setModel(new DefaultComboBoxModel<>(xmlFiles.toArray(new String[0])));
         String converterName = (String)comboOffers.getSelectedItem();
 
         assert converterName != null;
