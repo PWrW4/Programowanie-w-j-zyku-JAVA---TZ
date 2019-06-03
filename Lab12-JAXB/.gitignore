@@ -103,6 +103,6 @@ buildNumber.properties
 
 # End of https://www.gitignore.io/api/maven,intellij+all
 
-dane/*
+dane/*.xml
 out.html
 

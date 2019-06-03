@@ -12,7 +12,9 @@ import javax.xml.datatype.DatatypeFactory;
 import java.awt.event.*;
 import java.io.File;
 import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class OfferDialog extends JDialog {
     private JPanel contentPane;
@@ -34,8 +36,11 @@ public class OfferDialog extends JDialog {
         if (offerType==null){
             offer = new OfferType();
             try {
-                offer.setEndDate(DatatypeFactory.newInstance().newXMLGregorianCalendar());
-                offer.setStartDate(DatatypeFactory.newInstance().newXMLGregorianCalendar());
+                Date date = new Date();
+                GregorianCalendar g = new GregorianCalendar();
+                g.setTime(date);
+                offer.setEndDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(g));
+                offer.setStartDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(g));
             } catch (DatatypeConfigurationException e) {
                 e.printStackTrace();
             }
@@ -93,8 +98,11 @@ public class OfferDialog extends JDialog {
         offer.setDescription(descriptionTextField.getText());
         offer.setOfficeData(officeDataTextField.getText());
         try {
-            offer.setEndDate(DatatypeFactory.newInstance().newXMLGregorianCalendar());
-            offer.setStartDate(DatatypeFactory.newInstance().newXMLGregorianCalendar());
+            Date date = new Date();
+            GregorianCalendar g = new GregorianCalendar();
+            g.setTime(date);
+            offer.setEndDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(g));
+            offer.setStartDate(DatatypeFactory.newInstance().newXMLGregorianCalendar(g));
         } catch (DatatypeConfigurationException e) {
             e.printStackTrace();
         }

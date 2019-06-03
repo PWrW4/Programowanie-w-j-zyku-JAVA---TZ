@@ -3,16 +3,32 @@
     <xsl:template match="/">
         <html>
             <body>
-                <h1>Super oferta!!!</h1>
-                <a> Firma o opisie:
-                    <xsl:value-of select="OfferType/officeData"/>
-                </a>
-                <a style="color:blue;"> Opis:
-                    <xsl:value-of select="OfferType/description"/>
-                </a>
-                <a style="color:blue;"> Cena:
-                    <xsl:value-of select="OfferType/price"/>
-                </a>
+                <h1>Super offer!!!</h1>
+                <div>
+                    <a>
+                        Offer by company: <xsl:value-of select="OfferType/officeData"/>
+                    </a>
+                </div>
+                <div>
+                    <a style="color:blue;"> Opis:
+                        What is in price: <xsl:value-of select="OfferType/description"/>
+                    </a>
+                </div>
+                <div>
+                    <a>
+                       Start  <xsl:value-of select="OfferType/start_date"/>
+                    </a>
+                </div>
+                <div>
+                    <a>
+                       End time <xsl:value-of select="OfferType/end_date"/>
+                    </a>
+                </div>
+                <div>
+                    <a style="color:blue;"> Cena:
+                       Price: <xsl:value-of select="OfferType/price"/>
+                    </a>
+                </div>
             </body>
         </html>
     </xsl:template>

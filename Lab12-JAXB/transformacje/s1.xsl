@@ -4,15 +4,32 @@
         <html>
             <body>
                 <h1>Super oferta!!!</h1>
-                <a> Firma o opisie:
-                    <xsl:value-of select="OfferType/officeData"/>
-                </a>
-                <a style="color:red;"> Opis:
-                    <xsl:value-of select="OfferType/description"/>
-                </a>
-                <a style="color:red;"> Cena:
-                    <xsl:value-of select="OfferType/price"/>
-                </a>
+                <div>
+
+                </div>
+                    <a> Firma o opisie:
+                        <xsl:value-of select="OfferType/officeData"/>
+                    </a>
+                <div>
+                    <a style="color:red;"> Opis:
+                     Opis wyjazdu:  <xsl:value-of select="OfferType/description"/>
+                    </a>
+                </div>
+                <div>
+                    <a>
+                     Czas startu: <xsl:value-of select="OfferType/start_date"/>
+                    </a>
+                </div>
+                <div>
+                    <a>
+                      Koniec:  <xsl:value-of select="OfferType/end_date"/>
+                    </a>
+                </div>
+                <div>
+                    <a style="color:red;"> Cena:
+                        <xsl:value-of select="OfferType/price"/>
+                    </a>
+                </div>
             </body>
         </html>
     </xsl:template>
