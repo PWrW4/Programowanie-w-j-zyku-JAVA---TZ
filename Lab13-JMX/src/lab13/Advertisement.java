@@ -13,6 +13,7 @@ public class Advertisement extends NotificationBroadcasterSupport implements Adv
     private int old_addvTime;
 
     private long sequenceNumber = 1;
+    private boolean sendNotify = false;
 
     public Advertisement(int time, String adv) {
         super();
@@ -31,13 +32,19 @@ public class Advertisement extends NotificationBroadcasterSupport implements Adv
     public void setAddvString(String addvString) {
         this.old_addvString = this.addvString;
         this.addvString = addvString;
+        if (sendNotify) {
+            Notification n = new AttributeChangeNotification(this,
+                    sequenceNumber++, System.currentTimeMillis(),
+                    "String changed", "addvString", "String",
+                    old_addvString, this.addvString);
 
-        Notification n = new AttributeChangeNotification(this,
-                sequenceNumber++, System.currentTimeMillis(),
-                "String changed", "addvString", "String",
-                old_addvString, this.addvString);
+            sendNotification(n);
+        }
+        sendNotify = false;
+    }
 
-        sendNotification(n);
+    public void sendNotify(){
+        sendNotify = true;
     }
 
     @Override
@@ -49,13 +56,15 @@ public class Advertisement extends NotificationBroadcasterSupport implements Adv
     public void setAddvTime(int addTime) {
         this.old_addvTime = this.addvTime;
         this.addvTime = addTime;
+        if (sendNotify) {
+            Notification n = new AttributeChangeNotification(this,
+                    sequenceNumber++, System.currentTimeMillis(),
+                    "String changed", "addvTime", "int",
+                    old_addvTime, this.addvTime);
 
-        Notification n = new AttributeChangeNotification(this,
-                sequenceNumber++, System.currentTimeMillis(),
-                "String changed", "addvTime", "int",
-                old_addvTime, this.addvTime);
-
-        sendNotification(n);
+            sendNotification(n);
+        }
+        sendNotify = false;
     }
 
     @Override

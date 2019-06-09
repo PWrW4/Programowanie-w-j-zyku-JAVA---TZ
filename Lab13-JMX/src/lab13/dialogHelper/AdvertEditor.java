@@ -64,7 +64,9 @@ public class AdvertEditor extends JDialog {
             int time = Integer.parseInt(inputTime.getText());
             String text = inputText.getText();
 
+            adverts.get(id).sendNotify();
             adverts.get(id).setAddvString(text);
+            adverts.get(id).sendNotify();
             adverts.get(id).setAddvTime(time);
 
         }catch (Exception e){
