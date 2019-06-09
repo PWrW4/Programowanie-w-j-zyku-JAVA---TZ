@@ -1,6 +1,7 @@
 package lab13.dialogHelper;
 
 import lab13.Advertisement;
+import lab13.BannerController;
 
 import javax.swing.*;
 import java.awt.event.*;
@@ -65,7 +66,7 @@ public class AdvertEditor extends JDialog {
 
             adverts.get(id).setAddvString(text);
             adverts.get(id).setAddvTime(time);
-            System.out.println(time);
+
         }catch (Exception e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(this,"Błędne dane");
