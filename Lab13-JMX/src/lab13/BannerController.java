@@ -52,12 +52,9 @@ public class BannerController implements BannerControllerMBean, Runnable {
     }
 
     public void addAdvert(int time, String adv){
-        Advertisement advert = new Advertisement();
-        advert.setAddvTime(time);
-        advert.setAddvString(adv);
+        Advertisement advert = new Advertisement(time,adv);
 
         hmap.put(k,advert);
-
 
         try {
             tmpObjectName = new ObjectName("lab13.Advertisement:type=Advert,name=Advert_"+k);
