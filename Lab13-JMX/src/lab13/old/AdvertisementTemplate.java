@@ -1,6 +1,8 @@
-package lab13;
+package lab13.old;
 
-public class AdvertisementTemplate {
+import java.io.Serializable;
+
+public class AdvertisementTemplate implements Serializable {
     private String adText;
     private int adTime;
 

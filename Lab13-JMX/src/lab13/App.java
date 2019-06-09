@@ -1,52 +1,58 @@
 package lab13;
 
-import javax.management.*;
+import lab13.dialogHelper.AdvertEditor;
+
 import javax.swing.*;
 import java.awt.*;
-import java.lang.management.ManagementFactory;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Objects;
 
 public class App extends JFrame {
-    private JTextPane addField;
+    private JTextPane adField;
     private JPanel mainPanel;
-    private JTextField timerText;
+    private JLabel timerText;
     private JLabel timerLabel;
+    private JButton editButton;
+    private JLabel idText;
+    private JLabel idLabel;
 
-    private ObjectName objectName = null;
-    private MBeanServer server = null;
-    private Advertisement advert = null;
+    private BannerController bannerController;
 
     public App(String title) {
         super(title);
-        Objects.requireNonNull(addField).setContentType("text/html");
+        Objects.requireNonNull(adField).setContentType("text/html");
 
-        try {
-            objectName = new ObjectName("lab13.Advertisement:type=basic,name=Advertisement");
-        } catch (MalformedObjectNameException e) {
-            e.printStackTrace();
-        }
-
-        server = ManagementFactory.getPlatformMBeanServer();
-        advert = new Advertisement();
-
-        try {
-            server.registerMBean(advert, objectName);
-        } catch (InstanceAlreadyExistsException | MBeanRegistrationException | NotCompliantMBeanException e) {
-            e.printStackTrace();
-        }
+        bannerController = new BannerController(adField,timerText,idText);
+        bannerController.addAdvert(1000,"<h1>Reklama-------1</h1>");
+        bannerController.addAdvert(3000,"<h1>Reklama-------2</h1>");
+        bannerController.addAdvert(5000,"<h1>Reklama-------3</h1>");
+        bannerController.addAdvert(10000,"<h1>Reklama-------4</h1>");
+        bannerController.Start();
 
         setResizable(false);
-        addField.setMaximumSize(new Dimension(550,400));
+        adField.setMaximumSize(new Dimension(550,400));
         setMinimumSize(new Dimension(600,600));
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+        editButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                esitAcciton();
+            }
+        });
     }
 
+    private void esitAcciton() {
+        new AdvertEditor(bannerController.getHmap());
+    }
 
     public static void main(String[] args) {
         App service = new App("Java TZ JMX");
     }
+
+
 }
