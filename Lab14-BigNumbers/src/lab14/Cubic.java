@@ -1,6 +1,8 @@
 package lab14;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 
 public class Cubic {
 
@@ -19,7 +21,7 @@ public class Cubic {
     private BigDecimal x3;
 
 
-    private Cubic()
+    public Cubic()
     {
     }
 
@@ -31,10 +33,10 @@ public class Cubic {
      double _d)
     {
 
-        BigDecimal a = new BigDecimal(_a).setScale(12, BigDecimal.ROUND_HALF_UP);
-        BigDecimal b = new BigDecimal(_b).setScale(12, BigDecimal.ROUND_HALF_UP);
-        BigDecimal c = new BigDecimal(_c).setScale(12, BigDecimal.ROUND_HALF_UP);
-        BigDecimal d = new BigDecimal(_d).setScale(12, BigDecimal.ROUND_HALF_UP);
+        BigDecimal a = new BigDecimal(_a).setScale(30, BigDecimal.ROUND_HALF_UP);
+        BigDecimal b = new BigDecimal(_b).setScale(30, BigDecimal.ROUND_HALF_UP);
+        BigDecimal c = new BigDecimal(_c).setScale(30, BigDecimal.ROUND_HALF_UP);
+        BigDecimal d = new BigDecimal(_d).setScale(30, BigDecimal.ROUND_HALF_UP);
 
         if (a.equals(new BigDecimal(0)))
         {
@@ -112,4 +114,16 @@ public class Cubic {
         }
     }
 
+    public String getResultString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("x1 = ").append(x1.round(new MathContext(30, RoundingMode.HALF_UP))).append("\n");
+
+        if (nRoots==3){
+            sb.append("x2 = ").append(x2.round(new MathContext(30, RoundingMode.HALF_UP))).append("\n");
+            sb.append("x3 = ").append(x3.round(new MathContext(30, RoundingMode.HALF_UP))).append("\n");
+        }
+
+        return sb.toString();
+    }
 }
