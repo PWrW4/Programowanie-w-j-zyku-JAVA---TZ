@@ -7,29 +7,34 @@ public class Cubic {
     private static final BigDecimal TWO_PI =  new BigDecimal(2.0 * Math.PI);
     private static final BigDecimal FOUR_PI = new BigDecimal(4.0 * Math.PI);
 
-    public int nRoots;
+    private int nRoots;
 
 
-    public BigDecimal x1;
+    private BigDecimal x1;
 
 
-    public BigDecimal x2;
+    private BigDecimal x2;
 
 
-    public BigDecimal x3;
+    private BigDecimal x3;
 
 
-    public Cubic()
+    private Cubic()
     {
     }
 
 
     public void solve
-    (BigDecimal a,
-     BigDecimal b,
-     BigDecimal c,
-     BigDecimal d)
+    (double _a,
+     double _b,
+     double _c,
+     double _d)
     {
+
+        BigDecimal a = new BigDecimal(_a).setScale(12, BigDecimal.ROUND_HALF_UP);
+        BigDecimal b = new BigDecimal(_b).setScale(12, BigDecimal.ROUND_HALF_UP);
+        BigDecimal c = new BigDecimal(_c).setScale(12, BigDecimal.ROUND_HALF_UP);
+        BigDecimal d = new BigDecimal(_d).setScale(12, BigDecimal.ROUND_HALF_UP);
 
         if (a.equals(new BigDecimal(0)))
         {
@@ -98,12 +103,8 @@ public class Cubic {
 
     public static void main(String[] args) throws Exception {
 
-        BigDecimal a = new BigDecimal(1).setScale(12, BigDecimal.ROUND_HALF_UP);
-        BigDecimal b = new BigDecimal(4).setScale(12, BigDecimal.ROUND_HALF_UP);;
-        BigDecimal c = new BigDecimal(7).setScale(12, BigDecimal.ROUND_HALF_UP);;
-        BigDecimal d = new BigDecimal(8).setScale(12, BigDecimal.ROUND_HALF_UP);;
         Cubic cubic = new Cubic();
-        cubic.solve(a, b, c, d);
+        cubic.solve(1, 0, 0, 0);
         System.out.println("x1 = " + cubic.x1);
         if (cubic.nRoots == 3) {
             System.out.println("x2 = " + cubic.x2);
