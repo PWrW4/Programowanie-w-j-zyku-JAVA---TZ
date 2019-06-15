@@ -21,6 +21,19 @@ public class App extends JFrame{
     public App(String title) throws HeadlessException {
         super(title);
 
+        textA.setToolTipText(
+                "Współczynnik A - input field");
+        textB.setToolTipText(
+                "Współczynnik B - input field");
+        textC.setToolTipText(
+                "Współczynnik C - input field");
+        textD.setToolTipText(
+                "Współczynnik D - input field");
+        output.setToolTipText(
+                "Wynik");
+
+        wynikLabel.getAccessibleContext().setAccessibleDescription("sadasfsafas");
+
         setResizable(false);
         setContentPane(mainPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
