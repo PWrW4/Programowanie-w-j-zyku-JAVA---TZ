@@ -22,15 +22,19 @@ public class App extends JFrame{
         super(title);
 
         textA.setToolTipText(
-                "Współczynnik A - input field");
+                "Factor A - input field");
         textB.setToolTipText(
-                "Współczynnik B - input field");
+                "Factor B - input field");
         textC.setToolTipText(
-                "Współczynnik C - input field");
+                "Factor C - input field");
         textD.setToolTipText(
-                "Współczynnik D - input field");
+                "Factor D - input field");
         output.setToolTipText(
-                "Wynik");
+                "Result");
+        wynikLabel.setToolTipText(
+                "Result Label");
+
+
 
         wynikLabel.getAccessibleContext().setAccessibleDescription("sadasfsafas");
 
@@ -61,6 +65,11 @@ public class App extends JFrame{
         }catch (NumberFormatException e){
             e.printStackTrace();
             JOptionPane.showMessageDialog(null,"Wrong input numbers format");
+            return;
+        }
+
+        if (a==0){
+            JOptionPane.showMessageDialog(null,"Wrong A factor");
             return;
         }
 
